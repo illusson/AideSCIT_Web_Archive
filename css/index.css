@@ -40,15 +40,34 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     text-align: center;
+    font-weight: bold;
 }
+
 .table-content-base{
     width: 100%;
     height: auto;
 }
+
 .table-content{
     width: 100%;
     height: 600px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: 110px 110px 25px 110px 110px 25px 110px;
+}
+
+.table-divider {
+    grid-column-start: 1;
+    grid-column-end: 7;
+    text-align: center;
+    font-weight: bold;
+    margin: auto;
+}
+
+#table-divider-noon {
+    grid-row: 3;
+}
+
+#table-divider-evening {
+    grid-row: 6;
 }
