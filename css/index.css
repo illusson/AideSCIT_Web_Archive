@@ -1,4 +1,3 @@
-
 #drawer-button {
     width: 40px;
     height: auto;
@@ -29,90 +28,10 @@
     padding: 24px;
 }
 
-.index-pages {
-    width: auto;
-    height: auto;
-    position: absolute;
-}
-
-#home-soup-author {
-    margin-top: 0;
-    float: right;
-}
-
-.table-header {
-    width: 100%;
-    height: 24px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-    text-align: center;
-    font-weight: bold;
-}
-
-.table-header p {
-    margin: 0;
-}
-
-.table-content-base {
-    width: 100%;
-    height: auto;
-}
-
-.table-content {
-    width: 100%;
-    height: 600px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: 110px 110px 25px 110px 110px 25px 110px;
-}
-
-.table-divider {
-    grid-column-start: 1;
-    grid-column-end: 7;
-    text-align: center;
-    font-weight: bold;
-    margin: auto;
-}
-
-#table-divider-noon {
-    grid-row: 3;
-}
-
-#table-divider-evening {
-    grid-row: 6;
-}
-
-.table-item-base {
-    height: auto;
-    width: auto;
-    padding: 4px;
-}
-
-.table-item {
+.index-page {
 
 }
 
-.table-item-title {
-    font-weight: bold;
-}
-
-.table-item-content, .table-item-title {
-    font-size: 12px;
-    margin: 4px;
-}
-
-.achieve-toolbar {
-    display: grid;
-    grid-template-columns: auto auto auto;
-    column-gap: 10px;
-}
-
-#achieve-year {
-    grid-row: 1;
-    grid-column: 1;
-}
-
-#achieve-semester {
-    grid-row: 1;
-    grid-column: 2;
+.table-item-first {
+    text-align: start;
 }

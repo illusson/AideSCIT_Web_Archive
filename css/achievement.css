@@ -1,0 +1,41 @@
+.achieve-toolbar {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    column-gap: 15px;
+}
+
+#achieve-year {
+    grid-row: 1;
+    grid-column: 1;
+}
+
+#achieve-semester {
+    grid-row: 1;
+    grid-column: 2;
+}
+
+.data-table {
+    text-align: center;
+}
+
+.achieve-table-header {
+    font-weight: bold;
+}
+
+.achieve-table-passed {
+    display: grid;
+    grid-template-columns: 9fr 3fr 4fr 4fr 3fr;
+}
+
+.achieve-table-failed {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+}
+
+.achieve-table-title {
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    text-align: center;
+    font-weight: bold;
+}

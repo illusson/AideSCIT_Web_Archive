@@ -58,12 +58,6 @@ input {
     margin: 30px auto 0 auto;
     width: 60%;
     height: 40px;
-    background: dodgerblue;
-    border-radius: 20px;
-    font-size: 16px;
-    color: white;
-    text-align: center;
-    line-height: 40px;
 }
 
 .jump-button {

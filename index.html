@@ -6,8 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <title>SCIT教务助手 - 主页</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdui@1.0.1/dist/css/mdui.min.css"/>
-    <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/achievement.css">
 </head>
 <body class="mdui-drawer-body-left">
 <div class="mdui-drawer" id="left-drawer">
@@ -74,7 +76,7 @@
                 </div>
             </div>
         </div>
-        <div class="index-page" id="page-achievement">
+        <div class="index-page" id="page-achievement" style="display: none;">
             <div class="achieve-toolbar">
                 <select class="mdui-select" id="achieve-year" mdui-select="{position: 'bottom'}">
                     <option value="2019-2020" selected>2019-2020</option>
@@ -86,6 +88,35 @@
                     <option value="1" selected>1</option>
                     <option value="2">2</option>
                 </select>
+                <div class="primary-button mdui-ripple" onclick="">查询</div>
+            </div>
+            <div class="achieve-table">
+                <div class="achieve-table-header achieve-table-passed">
+                    <p>课程</p><p>成绩</p><p>补考成绩</p><p>重修成绩</p><p>学分</p>
+                </div>
+                <div class="achieve-table-passed-content">
+                    <div class="achieve-table-passed">
+                        <p class="table-item-first">大学体育Ⅱ</p><p>73</p><p></p><p></p><p>1.0</p>
+                    </div>
+                </div>
+            </div>
+            <p class="achieve-table-title">至今未过的课程</p>
+            <div class="achieve-table">
+                <div class="achieve-table-header achieve-table-failed">
+                    <p>课程</p><p>成绩</p>
+                </div>
+                <div class="achieve-table-failed-content">
+                    <div class="achieve-table-failed">
+                        <p class="table-item-first">大学生职业生涯发展与规划</p><p>21</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="index-page" id="page-exam">
+            <div class="exam-table">
+                <div class="exam-table-header">
+                    <p class="table-item-first">科目</p><p>时间</p><p>地点</p><p>座位号</p>
+                </div>
             </div>
         </div>
     </div>
