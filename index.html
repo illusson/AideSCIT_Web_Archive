@@ -34,6 +34,7 @@
         <a class="drawer-list mdui-list-item mdui-ripple" id="index-drawer-about">
             <i class="mdui-list-item-icon mdui-icon material-icons">info</i>
             <div class="mdui-list-item-content">关于</div>
+        </a>
         <a class="drawer-list mdui-list-item mdui-ripple" id="index-drawer-jump">
             <i class="mdui-list-item-icon mdui-icon material-icons">subdirectory_arrow_right</i>
             <div class="mdui-list-item-content">前往教务系统</div>
@@ -52,7 +53,7 @@
         <div class="header-title"></div>
     </div>
     <div class="body">
-        <div class="index-page" id="page-home">
+        <div class="index-page" id="page-home" style="display: none;">
             <h2 id="home-welcome">早上好，今天是第9周周四</h2>
             <p id="home-soup-content">幸运的人一生都被童年治愈，不幸的人一生都在治愈童年。</p>
             <p id="home-soup-author">阿尔弗雷德·阿德勒</p>
@@ -61,13 +62,31 @@
             </div>
             <div class="table-content-base">
                 <div class="table-content">
+                    <div class="table-item-base" style="grid-column: 1; grid-row: 1;">
+                        <div class="table-item mdui-card mdui-ripple">
+                            <div class="mdui-cars-content table-item-title" id="table-item-title">工程力学Ⅱ</div>
+                            <div class="mdui-cars-content table-item-content" id="table-item-room">钟灵楼(6号楼)209</div>
+                            <div class="mdui-cars-content table-item-content" id="table-item-teacher">何运琪</div>
+                        </div>
+                    </div>
                     <p class="table-divider" id="table-divider-noon">中午</p>
                     <p class="table-divider" id="table-divider-evening">晚上</p>
                 </div>
             </div>
         </div>
         <div class="index-page" id="page-achievement">
-
+            <div class="achieve-toolbar">
+                <select class="mdui-select" id="achieve-year" mdui-select="{position: 'bottom'}">
+                    <option value="2019-2020" selected>2019-2020</option>
+                    <option value="2020-2021">2020-2021</option>
+                    <option value="2021-2022">2021-2022</option>
+                    <option value="2022-2023">2022-2023</option>
+                </select>
+                <select class="mdui-select" id="achieve-semester" mdui-select="{position: 'bottom'}">
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                </select>
+            </div>
         </div>
     </div>
 </div>
