@@ -5,45 +5,58 @@
     <meta name = "applicable-device" content = "mobile">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <title>SCIT教务助手 - 主页</title>
+    <script>
+        const exports = {};
+    </script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdui@1.0.1/dist/css/mdui.min.css"/>
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/home.css">
     <link rel="stylesheet" href="css/achievement.css">
+    <link rel="stylesheet" href="css/exam.css">
+    <script src="js/index.js"></script>
 </head>
 <body class="mdui-drawer-body-left">
 <div class="mdui-drawer" id="left-drawer">
     <div class="mdui-list">
-        <a class="drawer-list mdui-list-item mdui-ripple mdui-list-item-active" id="index-drawer-home">
+        <a class="drawer-list mdui-list-item mdui-ripple mdui-list-item-active"
+           id="index-drawer-home" mdui-drawer-close
+           onclick="onDrawerListItemClick(0)">
             <i class="mdui-list-item-icon mdui-icon material-icons">home</i>
             <div class="mdui-list-item-content">首页</div>
         </a>
         <div class="mdui-divider"></div>
-        <a class="drawer-list mdui-list-item mdui-ripple" id="index-drawer-achievement">
+        <a class="drawer-list mdui-list-item mdui-ripple"
+           id="index-drawer-achievement" mdui-drawer-close
+           onclick="onDrawerListItemClick(1)">
             <i class="mdui-list-item-icon mdui-icon material-icons">grade</i>
             <div class="mdui-list-item-content">成绩单</div>
         </a>
-        <a class="drawer-list mdui-list-item mdui-ripple" id="index-drawer-exam">
+        <a class="drawer-list mdui-list-item mdui-ripple"
+           id="index-drawer-exam" mdui-drawer-close
+           onclick="onDrawerListItemClick(2)">
             <i class="mdui-list-item-icon mdui-icon material-icons">place</i>
             <div class="mdui-list-item-content">考试座位</div>
         </a>
         <div class="mdui-divider"></div>
-        <a class="drawer-list mdui-list-item mdui-ripple" id="index-drawer-mine">
+        <a class="drawer-list mdui-list-item mdui-ripple"
+           id="index-drawer-mine" mdui-drawer-close
+           onclick="onDrawerListItemClick(3)">
             <i class="mdui-list-item-icon mdui-icon material-icons">person</i>
             <div class="mdui-list-item-content">我的</div>
         </a>
         <div class="mdui-divider"></div>
-        <a class="drawer-list mdui-list-item mdui-ripple" id="index-drawer-about">
-            <i class="mdui-list-item-icon mdui-icon material-icons">info</i>
-            <div class="mdui-list-item-content">关于</div>
-        </a>
-        <a class="drawer-list mdui-list-item mdui-ripple" id="index-drawer-jump">
+        <a class="drawer-list mdui-list-item mdui-ripple"
+           id="index-drawer-jump" mdui-drawer-close
+           onclick="onDrawerListItemClick(4)">
             <i class="mdui-list-item-icon mdui-icon material-icons">subdirectory_arrow_right</i>
             <div class="mdui-list-item-content">前往教务系统</div>
         </a>
-        <a class="drawer-list mdui-list-item mdui-ripple" id="index-drawer-logout">
-            <i class="mdui-list-item-icon mdui-icon material-icons">exit_to_app</i>
-            <div class="mdui-list-item-content">退出登录</div>
+        <a class="drawer-list mdui-list-item mdui-ripple"
+           id="index-drawer-about" mdui-drawer-close
+           onclick="onDrawerListItemClick(5)">
+            <i class="mdui-list-item-icon mdui-icon material-icons">info</i>
+            <div class="mdui-list-item-content">关于</div>
         </a>
     </div>
 </div>
@@ -52,27 +65,29 @@
         <i class="header-actions mdui-icon material-icons mdui-ripple"
            id="drawer-button"
            mdui-drawer="{target: '#left-drawer'}">menu</i>
-        <div class="header-title"></div>
+        <p id="header-title"></p>
     </div>
     <div class="body">
         <div class="index-page" id="page-home" style="display: none;">
             <h2 id="home-welcome">早上好，今天是第9周周四</h2>
             <p id="home-soup-content">幸运的人一生都被童年治愈，不幸的人一生都在治愈童年。</p>
             <p id="home-soup-author">阿尔弗雷德·阿德勒</p>
-            <div class="table-header">
-                <p>周一</p><p>周二</p><p>周三</p><p>周四</p><p>周五</p><p>周六</p>
-            </div>
-            <div class="table-content-base">
-                <div class="table-content">
-                    <div class="table-item-base" style="grid-column: 1; grid-row: 1;">
-                        <div class="table-item mdui-card mdui-ripple">
-                            <div class="mdui-cars-content table-item-title" id="table-item-title">工程力学Ⅱ</div>
-                            <div class="mdui-cars-content table-item-content" id="table-item-room">钟灵楼(6号楼)209</div>
-                            <div class="mdui-cars-content table-item-content" id="table-item-teacher">何运琪</div>
+            <div class="table-base">
+                <div class="table-header schedule-column">
+                    <p>周一</p><p>周二</p><p>周三</p><p>周四</p><p>周五</p><p>周六</p>
+                </div>
+                <div class="table-content-base">
+                    <div class="table-content schedule-content schedule-column schedule-row table-item-first">
+                        <div class="schedule-item-base" style="grid-column: 1; grid-row: 1;">
+                            <div class="schedule-item mdui-card mdui-ripple">
+                                <div class="mdui-cars-content table-item-title" id="table-item-title">工程力学Ⅱ</div>
+                                <div class="mdui-cars-content table-item-content" id="table-item-room">钟灵楼(6号楼)209</div>
+                                <div class="mdui-cars-content table-item-content" id="table-item-teacher">何运琪</div>
+                            </div>
                         </div>
+                        <p class="table-divider" id="table-divider-noon">中午</p>
+                        <p class="table-divider" id="table-divider-evening">晚上</p>
                     </div>
-                    <p class="table-divider" id="table-divider-noon">中午</p>
-                    <p class="table-divider" id="table-divider-evening">晚上</p>
                 </div>
             </div>
         </div>
@@ -90,34 +105,40 @@
                 </select>
                 <div class="primary-button mdui-ripple" onclick="">查询</div>
             </div>
-            <div class="achieve-table">
-                <div class="achieve-table-header achieve-table-passed">
+            <div class="table-base">
+                <div class="table-header achieve-passed-column">
                     <p>课程</p><p>成绩</p><p>补考成绩</p><p>重修成绩</p><p>学分</p>
                 </div>
-                <div class="achieve-table-passed-content">
-                    <div class="achieve-table-passed">
+                <div class="table-content">
+                    <div class="table-content achieve-passed-column">
                         <p class="table-item-first">大学体育Ⅱ</p><p>73</p><p></p><p></p><p>1.0</p>
+                        <p class="table-item-first">高等数学BⅡ</p><p>35</p><p>62</p><p></p><p>4.0</p>
                     </div>
                 </div>
+                <p class="table-empty" id="achieve-passed-empty" style="display: none">成绩暂未出炉哦~</p>
             </div>
             <p class="achieve-table-title">至今未过的课程</p>
-            <div class="achieve-table">
-                <div class="achieve-table-header achieve-table-failed">
+            <div class="table-base">
+                <div class="table-header achieve-failed-column">
                     <p>课程</p><p>成绩</p>
                 </div>
-                <div class="achieve-table-failed-content">
-                    <div class="achieve-table-failed">
-                        <p class="table-item-first">大学生职业生涯发展与规划</p><p>21</p>
-                    </div>
+                <div class="table-content">
                 </div>
+                <p class="table-empty" id="achieve-failed-empty">恭喜你，目前为止所有课程都及格了呢~</p>
             </div>
         </div>
-        <div class="index-page" id="page-exam">
-            <div class="exam-table">
-                <div class="exam-table-header">
-                    <p class="table-item-first">科目</p><p>时间</p><p>地点</p><p>座位号</p>
+        <div class="index-page" id="page-exam" style="display: none;">
+            <div class="table-base">
+                <div class="table-header exam-column">
+                    <p>科目</p><p>时间</p><p>地点</p><p>座位号</p>
                 </div>
+                <div class="table-content">
+                </div>
+                <p class="table-empty" id="exam-empty">复习完了吗？这么着急考试？</p>
             </div>
+        </div>
+        <div class="index-page" id="page-about">
+
         </div>
     </div>
 </div>

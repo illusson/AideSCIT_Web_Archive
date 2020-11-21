@@ -1,11 +1,3 @@
-.exam-table {
-    text-align: center;
-}
-
-.exam-table-header {
-
-}
-
-.exam-table-item {
+.exam-column {
     grid-template-columns: 3fr 4fr 3fr 2fr;
 }
