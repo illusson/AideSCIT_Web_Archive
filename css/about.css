@@ -1,0 +1,14 @@
+#about-logo {
+    height: 160px;
+    width: 160px;
+    border-radius: 80px;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+#about-name {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+}

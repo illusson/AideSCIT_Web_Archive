@@ -29,7 +29,7 @@ export function onDrawerListItemClick(index: number){
 }
 
 window.onload = function (){
-    onDrawerListItemClick(3);
+    onDrawerListItemClick(4);
 }
 
 export function clearCache(){

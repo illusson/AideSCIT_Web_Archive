@@ -25,13 +25,11 @@
 }
 
 .body {
-    position: relative;
-    top: 40px;
     padding: 0 24px;
 }
 
 .index-page {
-    margin-top: 20px;
+    margin-top: 60px;
 }
 
 .table-base {

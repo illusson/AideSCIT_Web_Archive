@@ -34,7 +34,7 @@ function onDrawerListItemClick(index) {
 }
 exports.onDrawerListItemClick = onDrawerListItemClick;
 window.onload = function () {
-    onDrawerListItemClick(3);
+    onDrawerListItemClick(4);
 };
 function clearCache() {
     localStorage.clear();
