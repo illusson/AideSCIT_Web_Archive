@@ -247,13 +247,12 @@ var CurlResponse = /** @class */ (function () {
     return CurlResponse;
 }());
 exports.CurlResponse = CurlResponse;
-var CurlToolException = /** @class */ (function (_super) {
-    __extends(CurlToolException, _super);
-    function CurlToolException() {
-        return _super !== null && _super.apply(this, arguments) || this;
+var CurlToolException = /** @class */ (function () {
+    function CurlToolException(message, name) {
+        throw new DOMException(message, name);
     }
     return CurlToolException;
-}(DOMException));
+}());
 exports.CurlToolException = CurlToolException;
 var CurlUrlNotSetException = /** @class */ (function (_super) {
     __extends(CurlUrlNotSetException, _super);

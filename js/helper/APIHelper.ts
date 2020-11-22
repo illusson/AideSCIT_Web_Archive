@@ -17,7 +17,7 @@ export class APIHelper {
     }
 
     public getLoginCall(username: string, password: string): CurlCall {
-        const args = new Map<String, any>()
+        const args = new Map<string, any>()
             .set("password", password)
             .set("ts", APIHelper.getTS())
             .set("username", username);

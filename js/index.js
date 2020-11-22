@@ -8,18 +8,17 @@ var DrawerController = /** @class */ (function () {
     return DrawerController;
 }());
 function onDrawerListItemClick(index) {
+    var active_list = document.getElementsByClassName("mdui-list-item-active");
+    for (var active_index = 0; active_index < active_list.length; active_index++) {
+        var active_item = active_list.item(active_index);
+        active_item.classList.remove("mdui-list-item-active");
+    }
+    var drawer_list = document.getElementsByClassName("drawer-list");
+    var active = drawer_list.item(index);
     if (index == 4) {
-        window.open("http://218.6.163.95:8081/");
+        active = drawer_list.item(5);
     }
-    else {
-        var active_list = document.getElementsByClassName("mdui-list-item-active");
-        for (var active_index = 0; active_index < active_list.length; active_index++) {
-            var active_item = active_list.item(active_index);
-            active_item.classList.remove("mdui-list-item-active");
-        }
-        var drawer_list = document.getElementsByClassName("drawer-list");
-        drawer_list.item(index).classList.add("mdui-list-item-active");
-    }
+    active.classList.add("mdui-list-item-active");
     if (index != DrawerController.index_now) {
         var page_list = document.getElementsByClassName("index-page");
         for (var active_index = 0; active_index < page_list.length; active_index++) {

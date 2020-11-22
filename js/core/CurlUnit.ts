@@ -258,7 +258,11 @@ export class CurlResponse {
     }
 }
 
-export class CurlToolException extends DOMException { }
+export class CurlToolException {
+    constructor(message?: string, name?: string) {
+        throw new DOMException(message, name);
+    }
+}
 
 export class CurlUrlNotSetException extends CurlToolException { }
 

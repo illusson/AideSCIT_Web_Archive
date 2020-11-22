@@ -31,7 +31,3 @@ function onLoginFailed(code: number, message: string){
     const error: HTMLElement = document.getElementById("login-error");
     error.innerText = message + " (" + code + ")";
 }
-
-export function jumpToSCITEdu(){
-    window.open("http://218.6.163.95:8081/");
-}
