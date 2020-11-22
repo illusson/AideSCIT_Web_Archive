@@ -44,10 +44,9 @@
     text-align: end;
 }
 
-#clear-cache {
+#clear-cache, #mine-logout {
     position: absolute;
     left: 50%;
-    bottom: 20px;
     transform: translate(-50%, 0);
     display: block;
     width: 60%;
@@ -58,4 +57,12 @@
     color: dodgerblue;
     text-align: center;
     line-height: 40px;
+}
+
+#clear-cache {
+    bottom: 90px;
+}
+
+#mine-logout {
+    bottom: 30px;
 }
