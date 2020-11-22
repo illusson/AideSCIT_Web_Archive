@@ -164,6 +164,7 @@ export class CurlCall {
             throw new CurlUrlNotSetException("The url of this client is not set.");
         } else {
             this.xmlRequest = new XMLHttpRequest();
+            this.xmlRequest.withCredentials = false;
             this.xmlRequest.timeout = client.getTimeout();
             this.url = request.getUrl();
             const this_CurlCall = this;

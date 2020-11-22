@@ -31,3 +31,7 @@ export function onDrawerListItemClick(index: number){
 window.onload = function (){
     onDrawerListItemClick(3);
 }
+
+export function clearCache(){
+    localStorage.clear()
+}

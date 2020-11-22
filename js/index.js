@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.onDrawerListItemClick = void 0;
+exports.clearCache = exports.onDrawerListItemClick = void 0;
 var DrawerController = /** @class */ (function () {
     function DrawerController() {
     }
@@ -36,4 +36,8 @@ exports.onDrawerListItemClick = onDrawerListItemClick;
 window.onload = function () {
     onDrawerListItemClick(3);
 };
+function clearCache() {
+    localStorage.clear();
+}
+exports.clearCache = clearCache;
 //# sourceMappingURL=index.js.map
