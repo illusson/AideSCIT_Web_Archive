@@ -2,7 +2,7 @@ import {CurlCall, CurlClientBuilder, CurlRequestBuilder, FormBodyBuilder} from "
 import {Map, MapForEachCallback} from "../core/Map";
 
 export class APIHelper {
-    private static readonly debug: boolean = false;
+    private static readonly debug: boolean = location.href.indexOf("SCITEduTool") >= 0;
 
     private static readonly API_HOST: String = "https://tool.eclass.sgpublic.xyz/api"
     public static readonly METHOD_GET: number = 0
@@ -93,7 +93,7 @@ export class APIHelper {
         if (url.substr(0, 4) == "http"){
             url_final = url;
         } else {
-            url_final = APIHelper.API_HOST + "/" + (APIHelper.debug ? "v2" : "v1") + "/" + url;
+            url_final = APIHelper.API_HOST + "/" + (APIHelper.debug ? "v2" : "web") + "/" + url;
         }
         const form_builder = new FormBodyBuilder();
         argArray.forEach(new class implements MapForEachCallback<string, any> {

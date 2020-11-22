@@ -5,9 +5,8 @@
 /js/core/CacheUnit.js.map
 /js/core/CookieUnit.js
 /js/core/CookieUnit.js.map
+/js/core/CurlUnit.js
 /js/core/CurlUnit.js.map
-/js/core/JSONObject.js
-/js/core/JSONObject.js.map
 /js/core/Map.js
 /js/core/Map.js.map
 /js/core/RSAStaticUnit.js
@@ -34,3 +33,7 @@
 /js/helper/UserInfoHelper.js.map
 /js/Login.js
 /js/Login.js.map
+/js/base.js
+/js/base.js.map
+/js/index.js
+/js/index.js.map
