@@ -29,5 +29,5 @@ export function onDrawerListItemClick(index: number){
 }
 
 window.onload = function (){
-    onDrawerListItemClick(0);
+    onDrawerListItemClick(3);
 }

@@ -1,0 +1,54 @@
+#page-mine {
+    align-items: center;
+}
+
+#mine-avatar {
+    height: 80px;
+    width: 80px;
+    border-radius: 40px;
+    margin: auto;
+}
+
+#mine-name {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.user-info {
+    margin: 50px auto 0 auto;
+    width: 80%;
+}
+
+.mine-divider {
+    height: 1px;
+    background-color: lightgrey;
+    width: 100%;
+}
+
+.user-info-item {
+    display: grid;
+    grid-template-columns: auto auto;
+    margin: 0 10px;
+}
+
+.user-info-item p {
+    font-size: 17px;
+}
+
+.user-info-content {
+    text-align: end;
+}
+
+#clear-cache {
+    margin: auto;
+    bottom: 20px;
+    width: 60%;
+    height: 40px;
+    background: lightgray;
+    border-radius: 20px;
+    font-size: 16px;
+    color: dodgerblue;
+    text-align: center;
+    line-height: 40px;
+}

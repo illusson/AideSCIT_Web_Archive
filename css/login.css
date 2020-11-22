@@ -54,13 +54,13 @@ input {
     min-height: 16px;
 }
 
-.login-button {
+#login-button {
     margin: 30px auto 0 auto;
     width: 60%;
     height: 40px;
 }
 
-.jump-button {
+#jump-button {
     margin: 10px auto 0 auto;
     width: 60%;
     height: 40px;

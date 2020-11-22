@@ -34,6 +34,6 @@ function onDrawerListItemClick(index) {
 }
 exports.onDrawerListItemClick = onDrawerListItemClick;
 window.onload = function () {
-    onDrawerListItemClick(0);
+    onDrawerListItemClick(3);
 };
 //# sourceMappingURL=index.js.map

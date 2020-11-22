@@ -54,7 +54,9 @@ export class TableHelper {
                             rangeJudge = rangeJudge || (rangeObject[indexRange] == week);
                         }
                         if (rangeJudge){
-                            callback.onRead(dayIndex, classIndex, new TableData(
+                            const day_column = dayIndex + 1;
+                            const class_column = classIndex + parseInt((classIndex / 2).toString()) + 1;
+                            callback.onRead(day_column, class_column, new TableData(
                                 indexObject["name"],
                                 indexObject["teacher"],
                                 indexObject["room"]

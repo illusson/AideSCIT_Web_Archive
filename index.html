@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="css/home.css">
     <link rel="stylesheet" href="css/achievement.css">
     <link rel="stylesheet" href="css/exam.css">
+    <link rel="stylesheet" href="css/mine.css">
 </head>
 <body class="mdui-drawer-body-left">
 <div class="mdui-drawer" id="left-drawer">
@@ -137,7 +138,28 @@
             </div>
         </div>
         <div class="index-page" id="page-mine" style="display: none;">
-            <p>page-mine</p>
+            <img id="mine-avatar" src="img/drawable_avatar.png" alt="头像">
+            <p id="mine-name">赵海天 同学</p>
+            <div class="user-info">
+                <div class="mine-divider"></div>
+                <div class="user-info-item">
+                    <p>学院：</p><p class="user-info-content" id="user-info-faculty">智能制造与车辆工程学院</p>
+                </div>
+                <div class="mine-divider"></div>
+                <div class="user-info-item">
+                    <p>专业：</p><p class="user-info-content" id="user-info-specialty">机器人工程</p>
+                </div>
+                <div class="mine-divider"></div>
+                <div class="user-info-item">
+                    <p>年级：</p><p class="user-info-content" id="user-info-grade">2019</p>
+                </div>
+                <div class="mine-divider"></div>
+                <div class="user-info-item">
+                    <p>班级：</p><p class="user-info-content" id="user-info-class">19机器人1班</p>
+                </div>
+                <div class="mine-divider"></div>
+            </div>
+            <div class="mdui-ripple" id="clear-cache" onclick="clearCache()">清除缓存数据</div>
         </div>
         <div class="index-page" id="page-about" style="display: none;">
             <p>page-about</p>
