@@ -48,12 +48,12 @@
             <div class="mdui-list-item-content">我的</div>
         </a>
         <div class="mdui-divider"></div>
-        <a class="drawer-list mdui-list-item mdui-ripple"
-           id="index-drawer-jump" mdui-drawer-close
-           onclick="window.open('http://218.6.163.95:8081/');">
-            <i class="mdui-list-item-icon mdui-icon material-icons">subdirectory_arrow_right</i>
-            <div class="mdui-list-item-content">前往教务系统</div>
-        </a>
+<!--        <a class="drawer-list mdui-list-item mdui-ripple"-->
+<!--           id="index-drawer-jump" mdui-drawer-close-->
+<!--           onclick="">-->
+<!--            <i class="mdui-list-item-icon mdui-icon material-icons">subdirectory_arrow_right</i>-->
+<!--            <div class="mdui-list-item-content">前往教务系统</div>-->
+<!--        </a>-->
         <a class="drawer-list mdui-list-item mdui-ripple"
            id="index-drawer-about" mdui-drawer-close
            onclick="onDrawerListItemClick(4)">
@@ -142,31 +142,48 @@
         <div class="index-page" id="page-mine" style="display: none;">
             <img id="mine-avatar" src="img/drawable_avatar.png" alt="头像">
             <p id="mine-name">赵海天 同学</p>
-            <div class="user-info">
-                <div class="mine-divider"></div>
-                <div class="user-info-item">
+            <div class="content-items">
+                <div class="mdui-divider"></div>
+                <div class="user-info-item mdui-ripple">
                     <p>学院：</p><p class="user-info-content" id="user-info-faculty">智能制造与车辆工程学院</p>
                 </div>
-                <div class="mine-divider"></div>
-                <div class="user-info-item">
+                <div class="mdui-divider"></div>
+                <div class="user-info-item mdui-ripple">
                     <p>专业：</p><p class="user-info-content" id="user-info-specialty">机器人工程</p>
                 </div>
-                <div class="mine-divider"></div>
-                <div class="user-info-item">
+                <div class="mdui-divider"></div>
+                <div class="user-info-item mdui-ripple">
                     <p>年级：</p><p class="user-info-content" id="user-info-grade">2019</p>
                 </div>
-                <div class="mine-divider"></div>
-                <div class="user-info-item">
+                <div class="mdui-divider"></div>
+                <div class="user-info-item mdui-ripple">
                     <p>班级：</p><p class="user-info-content" id="user-info-class">19机器人1班</p>
                 </div>
-                <div class="mine-divider"></div>
+                <div class="mdui-divider"></div>
             </div>
-            <div class="mdui-ripple" id="clear-cache" onclick="clearCache()">清除缓存数据</div>
+            <div class="primary-button mdui-ripple" id="jump-button"
+                 onclick="window.open('http://218.6.163.95:8081/');">
+                前往教务系统
+            </div>
             <div class="mdui-ripple" id="mine-logout" onclick="logout()">退出登录</div>
         </div>
         <div class="index-page" id="page-about" style="display: none;">
             <img id="about-logo" src="img/ic_launcher.png" alt="logo">
             <p id="about-name">SCIT教务助手</p>
+            <div class="content-items">
+                <div class="mdui-divider"></div>
+                <div class="about-item mdui-ripple">
+                    <p>开发者</p>
+                </div>
+                <div class="mdui-divider"></div>
+                <div class="about-item mdui-ripple">
+                    <p>开发者</p>
+                </div>
+                <div class="mdui-divider"></div>
+                <div class="about-item mdui-ripple">
+                    <p>开发者</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>

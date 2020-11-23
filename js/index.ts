@@ -10,9 +10,9 @@ export function onDrawerListItemClick(index: number){
     }
     const drawer_list: HTMLCollectionOf<Element> = document.getElementsByClassName("drawer-list");
     let active: Element = drawer_list.item(index);
-    if (index == 4){
-        active = drawer_list.item(5);
-    }
+    // if (index == 4){
+    //     active = drawer_list.item(5);
+    // }
     active.classList.add("mdui-list-item-active");
     if (index != DrawerController.index_now) {
         const page_list: HTMLCollectionOf<Element> = document.getElementsByClassName("index-page");

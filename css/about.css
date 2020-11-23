@@ -12,3 +12,11 @@
     font-size: 24px;
     font-weight: bold;
 }
+
+.about-item {
+    padding: 0 10px;
+}
+
+.about-item p {
+    font-size: 17px;
+}

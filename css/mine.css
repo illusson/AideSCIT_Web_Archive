@@ -19,21 +19,10 @@
     text-align: center;
 }
 
-.user-info {
-    margin: 50px auto 0 auto;
-    width: 80%;
-}
-
-.mine-divider {
-    height: 1px;
-    background-color: lightgrey;
-    width: 100%;
-}
-
 .user-info-item {
     display: grid;
     grid-template-columns: auto auto;
-    margin: 0 10px;
+    padding: 0 10px;
 }
 
 .user-info-item p {
@@ -44,25 +33,25 @@
     text-align: end;
 }
 
-#clear-cache, #mine-logout {
+#jump-button, #mine-logout {
     position: absolute;
     left: 50%;
     transform: translate(-50%, 0);
     display: block;
     width: 60%;
     height: 40px;
-    background: lightgray;
     border-radius: 20px;
     font-size: 16px;
-    color: dodgerblue;
     text-align: center;
     line-height: 40px;
 }
 
-#clear-cache {
+#jump-button {
     bottom: 90px;
 }
 
 #mine-logout {
     bottom: 30px;
+    background: lightgray;
+    color: dodgerblue;
 }
