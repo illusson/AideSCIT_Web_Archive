@@ -1,12 +1,15 @@
 import {ExamData} from "../data/ExamData";
 import {CurlCall, CurlCallback, CurlResponse, CurlToolException} from "../core/CurlUnit";
 import {APIHelper} from "./APIHelper";
+import {CookieUnit} from "../core/CookieUnit";
 
 export class ExamHelper {
     private readonly access_token: string;
 
-    constructor(access_token: string) {
-        this.access_token = access_token;
+    constructor() {
+        let access_token: string[] = [""];
+        CookieUnit.get("access_token", access_token)
+        this.access_token = access_token[0];
     }
 
     public getExamInfo(callback: ExamCallback){
@@ -20,7 +23,8 @@ export class ExamHelper {
                 if (response.code() == 200){
                     const result = JSON.parse(response.body());
                     if (result["code"] == 200){
-                        ExamHelper.parse(response, callback);
+                        localStorage.setItem("cache.exam", response.body());
+                        ExamHelper.parse(response.body(), callback);
                     } else {
                         callback.onFailure(-104, result["message"]);
                     }
@@ -31,9 +35,9 @@ export class ExamHelper {
         })
     }
 
-    private static parse(response: any, callback: ExamCallback) {
+    public static parse(response: string, callback: ExamCallback) {
         callback.onReadStart();
-        const result: any = JSON.parse(response.body());
+        const result: any = JSON.parse(response);
         const examObject: any = result["exam"];
         if (result["count"] > 0){
             for (let index = 0; index < examObject.length; index++) {
@@ -43,7 +47,7 @@ export class ExamHelper {
                 ))
             }
         }
-        callback.onReadFinish();
+        callback.onReadFinish(result["count"] <= 0);
     }
 }
 
@@ -51,5 +55,5 @@ export interface ExamCallback {
     onFailure(code: number, message?: string, e?: CurlToolException)
     onReadStart();
     onReadData(data: ExamData);
-    onReadFinish();
+    onReadFinish(isEmpty: boolean);
 }

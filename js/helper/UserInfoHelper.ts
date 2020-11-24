@@ -1,11 +1,14 @@
 import {CurlCall, CurlCallback, CurlResponse, CurlToolException} from "../core/CurlUnit";
 import {APIHelper} from "./APIHelper";
+import {CookieUnit} from "../core/CookieUnit";
 
 export class UserInfoHelper {
     private readonly access_token: string;
 
-    constructor(access_token: string) {
-        this.access_token = access_token;
+    constructor() {
+        let access_token: string[] = [""];
+        CookieUnit.get("access_token", access_token)
+        this.access_token = access_token[0];
     }
 
     public getUserInfo(callback: UserInfoCallback){

@@ -62,7 +62,7 @@
     </div>
 </div>
 <div class="root">
-    <div class="root-fragment" id="welcome-fragment">
+    <div class="root-fragment" id="welcome-fragment" style="display: none;">
         <img id="welcome-logo" src="img/ic_logo_school.png" alt="logo">
         <div id="welcome-content">
             <img id="welcome-suyhan-logo" src="img/ic_logo_suyhan.png" alt="logo">
@@ -70,7 +70,7 @@
             <p id="welcome-content-text">你的忠实仆从，遂幻工作室出品</p>
         </div>
     </div>
-    <div class="root-fragment" id="index-fragment" style="display: none;">
+    <div class="root-fragment" id="index-fragment">
         <div class="header">
             <i class="header-actions mdui-icon material-icons mdui-ripple"
                id="drawer-button"
@@ -78,7 +78,7 @@
             <p id="header-title"></p>
         </div>
         <div class="body">
-            <div class="index-page" id="page-home">
+            <div class="index-page" id="page-home" style="display: none;">
                 <h2 id="home-welcome">早上好，今天是第9周周四</h2>
                 <p id="home-soup-content">幸运的人一生都被童年治愈，不幸的人一生都在治愈童年。</p>
                 <p id="home-soup-author">阿尔弗雷德·阿德勒</p>
@@ -86,22 +86,23 @@
                     <div class="table-header schedule-column">
                         <p>周一</p><p>周二</p><p>周三</p><p>周四</p><p>周五</p><p>周六</p>
                     </div>
-                    <div class="table-content-base">
+                    <div id="schedule-content-base">
                         <div class="table-content schedule-column schedule-row table-item-first" id="schedule-content">
-                            <div class="schedule-item-base" style="grid-column: 1; grid-row: 1;">
+                            <div id="schedule-item-base" style="grid-column: 1; grid-row: 1;">
                                 <div class="schedule-item mdui-card mdui-ripple">
-                                    <div class="mdui-cars-content table-item-title" id="table-item-title">工程力学Ⅱ</div>
-                                    <div class="mdui-cars-content table-item-content" id="table-item-room">钟灵楼(6号楼)209</div>
-                                    <div class="mdui-cars-content table-item-content" id="table-item-teacher">何运琪</div>
+                                    <div class="mdui-cars-content table-item-title">工程力学Ⅱ</div>
+                                    <div class="mdui-cars-content table-item-content">钟灵楼(6号楼)209</div>
+                                    <div class="mdui-cars-content table-item-content">何运琪</div>
                                 </div>
                             </div>
                             <p class="table-divider" id="table-divider-noon">中午</p>
                             <p class="table-divider" id="table-divider-evening">晚上</p>
                         </div>
                     </div>
+                    <p class="table-empty" id="schedule-empty" style="display: none;">暂无数据</p>
                 </div>
             </div>
-            <div class="index-page" id="page-achievement" style="display: none;">
+            <div class="index-page" id="page-achievement">
                 <div class="achieve-toolbar">
                     <select class="mdui-select" id="achieve-year" mdui-select="{position: 'bottom'}">
                         <option value="2019-2020" selected>2019-2020</option>
@@ -119,9 +120,11 @@
                     <div class="table-header achieve-passed-column">
                         <p>课程</p><p>成绩</p><p>补考成绩</p><p>重修成绩</p><p>学分</p>
                     </div>
-                    <div class="table-content">
-                        <div class="table-content achieve-passed-column">
+                    <div class="table-content" id="achieve-passed-content">
+                        <div class="table-content achieve-passed-column achieve-item">
                             <p class="table-item-first">大学体育Ⅱ</p><p>73</p><p></p><p></p><p>1.0</p>
+                        </div>
+                        <div class="table-content achieve-passed-column achieve-item">
                             <p class="table-item-first">高等数学BⅡ</p><p>35</p><p>62</p><p></p><p>4.0</p>
                         </div>
                     </div>
@@ -132,7 +135,8 @@
                     <div class="table-header achieve-failed-column">
                         <p>课程</p><p>成绩</p>
                     </div>
-                    <div class="table-content">
+                    <div class="table-content" id="achieve-failed-content">
+
                     </div>
                     <p class="table-empty" id="achieve-failed-empty">恭喜你，目前为止所有课程都及格了呢~</p>
                 </div>
@@ -142,9 +146,15 @@
                     <div class="table-header exam-column">
                         <p>科目</p><p>时间</p><p>地点</p><p>座位号</p>
                     </div>
-                    <div class="table-content">
+                    <div class="table-content" id="exam-content">
+                        <div class="table-content exam-column exam-item">
+                            <p class="table-item-first">高等数学</p><p>2020</p><p>钟灵楼</p><p>52</p>
+                        </div>
+                        <div class="table-content exam-column exam-item">
+                            <p class="table-item-first">高等数学</p><p>2020</p><p>钟灵楼</p><p>52</p>
+                        </div>
                     </div>
-                    <p class="table-empty" id="exam-empty">复习完了吗？这么着急考试？</p>
+                    <p class="table-empty" id="exam-empty" style="display: none;">复习完了吗？这么着急考试？</p>
                 </div>
             </div>
             <div class="index-page" id="page-mine" style="display: none;">

@@ -26,7 +26,8 @@ export class TableHelper {
                 if (response.code() == 200){
                     const result = JSON.parse(response.body());
                     if (result["code"] == 200){
-                        TableHelper.parse(response, this_TableHelper.week, callback);
+                        localStorage.setItem("cache.table", response.body());
+                        TableHelper.parse(response.body(), this_TableHelper.week, callback);
                     } else {
                         callback.onFailure(-404, result["message"]);
                     }
@@ -37,10 +38,10 @@ export class TableHelper {
         })
     }
 
-    private static parse(response: CurlResponse, week: number, callback: TableCallback) {
+    public static parse(response: string, week: number, callback: TableCallback) {
         callback.onReadStart();
         let isEmpty = 0;
-        const result: any = JSON.parse(response.body());
+        const result: any = JSON.parse(response);
         const tableObject = result["table"];
         for (let dayIndex = 0; dayIndex < tableObject.length; dayIndex++){
             const dayObject: any = tableObject[dayIndex];
@@ -80,5 +81,5 @@ export interface TableCallback {
     onFailure(code: number, message: string, e?: CurlToolException);
     onReadStart();
     onRead(dayIndex: number, classIndex: number, data?: TableData);
-    onReadFinish(isEmpty: Boolean);
+    onReadFinish(isEmpty: boolean);
 }

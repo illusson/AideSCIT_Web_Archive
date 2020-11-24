@@ -34,7 +34,7 @@
 
 .table-base {
     margin-top: 20px;
-    margin-bottom: 10px;
+    margin-bottom: 40px;
     text-align: center;
 }
 
@@ -47,16 +47,15 @@
     height: 24px;
     display: grid;
     font-weight: bold;
+    margin-bottom: 10px;
 }
 
-.table-content-base {
+#schedule-content-base {
     width: 100%;
     height: auto;
 }
 
 .table-content {
-    margin-top: 3px;
-    margin-bottom: 10px;
     display: grid;
     width: 100%;
     grid-row-gap: 10px;

@@ -1,21 +1,77 @@
 import {CookieUnit} from "./core/CookieUnit";
 import {LoginCallback, LoginHelper, SpringboardCallback} from "./helper/LoginHelper";
-import {CurlToolException} from "./core/CurlUnit";
-import {TableCallback, TableHelper} from "./helper/TableHelper";
+import {CurlCall, CurlCallback, CurlResponse, CurlToolException} from "./core/CurlUnit";
 import {SharedPreferences} from "./core/SharedPreferences";
-import {TableData} from "./data/TableData";
 import {APIHelper} from "./helper/APIHelper";
+import {ExamHelper} from "./helper/ExamHelper";
+import {AchievementHelper} from "./helper/AchievementHelper";
+import {Map} from "./core/Map";
+import {HtmlCompatActivity} from "./core/HtmlCompatActivity";
+import {Home} from "./Home";
+import {Exam} from "./Exam";
+import {Login} from "./Login";
+import {Achievement} from "./Achievement";
 
-class Controller {
-    public static drawer_index_now: number = 1;
+export class Controller {
+    public static drawer_index_now: number = -1;
+    private static readonly total_count = 3;
     public static is_finished: boolean[] = [];
+    public static is_login: boolean = true;
 
-    public static finish(value: boolean){
-        this.is_finished.push(value);
+    private static activities: Map<string, HtmlCompatActivity> = new Map<string, HtmlCompatActivity>();
+
+    public static setup() {
+        Controller.activities.set("Home", new Home());
+        Controller.activities.set("Exam", new Exam());
+        Controller.activities.set("Login", new Login());
+        Controller.activities.set("Achievement", new Achievement());
+    }
+
+    public static getActivity(key: string): HtmlCompatActivity {
+        if (this.activities.has(key)){
+            return this.activities.get(key);
+        } else {
+            return new class extends HtmlCompatActivity {
+                onCreate() {}
+            }
+        }
+    }
+
+    public static finish(value: boolean): void {
+        Controller.is_finished.push(value);
+        if (Controller.is_finished.length >= Controller.total_count){
+            let finished = true;
+            this.is_finished.forEach(function (value, index, array) {
+                finished = finished && value;
+            })
+            if (finished){
+                HtmlCompatActivity.setVisibility(document
+                    .getElementById("welcome-fragment"), false);
+                let page: Element;
+                if (Controller.is_login){
+                    onDrawerListItemClick(0);
+                    page = document.getElementById("index-fragment");
+                } else {
+                    this.getActivity("Login").onCreate();
+                    page = document.getElementById("login-fragment");
+                }
+                HtmlCompatActivity.setVisibility(page, true);
+            } else {
+                // @ts-ignore
+                mdui.snackbar({
+                    message: '网页初始化失败，请尝试刷新网页'
+                })
+            }
+        }
     }
 }
 
 export function onDrawerListItemClick(index: number): void {
+    const activity_list: string[] = ["Home", "Achievement", "Exam"];
+    if (index < 3){
+        Controller.getActivity(activity_list[index]).onCreate();
+    }
+
     const active_list: HTMLCollectionOf<Element> = document.getElementsByClassName("mdui-list-item-active");
     for (let active_index = 0; active_index < active_list.length; active_index++){
         const active_item: Element = active_list.item(active_index);
@@ -28,133 +84,109 @@ export function onDrawerListItemClick(index: number): void {
         const page_list: HTMLCollectionOf<Element> = document.getElementsByClassName("index-page");
         for (let active_index = 0; active_index < page_list.length; active_index++){
             const active_item: Element = page_list.item(active_index);
-            active_item.setAttribute("style", "display: none;")
+            HtmlCompatActivity.setVisibility(active_item, false);
         }
         let active_item: Element = page_list.item(index);
-        if (active_item.hasAttribute("style")) {
-            active_item.removeAttribute("style");
-        }
+        HtmlCompatActivity.setVisibility(active_item, true);
     }
     Controller.drawer_index_now = index;
 }
 
-export function getHeaderInfo(): void {
-
-}
-
-export function onLoginAction() {
-    const username: HTMLElement = document.getElementById("login-username");
-    const password: HTMLElement = document.getElementById("login-password");
-
-    const error: HTMLElement = document.getElementById("login-error");
-    error.textContent = "test";
-
-    new LoginHelper().login(username.nodeValue, password.nodeValue, new class implements LoginCallback {
-        onFailure(code: number, message: string, e: CurlToolException) {
-            onLoginFailed(code, message);
+function getWeek(): void {
+    new APIHelper().getDayRequest().enqueue(new class implements CurlCallback {
+        onFailure(call: CurlCall, exception: CurlToolException, requestId: number) {
+            Controller.finish(false);
         }
 
-        onResult(access: string, refresh: string) {
-            onLoginResult(access, refresh)
+        onResponse(call: CurlCall, response: CurlResponse, requestId: number) {
+            if (response.code() == 200){
+                const result = JSON.parse(response.body());
+                if (result["code"] == 200){
+                    if (result['direct'] == '+'){
+                        let day_count: number = result['day_count'];
+                        if (day_count % 7 == 0){
+                            day_count = day_count / 7;
+                        } else {
+                            day_count = day_count / 7 + 1;
+                        }
+                        if (day_count > 18){
+                            day_count = 0;
+                        } else if (day_count == 18 && new Date().getDay() == 0){
+                            day_count = 0;
+                        }
+                        SharedPreferences.getInterface('user').edit()
+                            .putNumber("week", day_count)
+                            .putNumber("semester", result['semester'])
+                            .putNumber("school_year", result['school_year'])
+                            .apply();
+                        Controller.finish(true);
+                        return;
+                    }
+                }
+            }
+            Controller.finish(false);
         }
     })
 }
 
-function onLoginResult(access: string, refresh: string){
-    CookieUnit.set("access_token", access);
-    CookieUnit.set("refresh_token", refresh);
+function getSentence(): void {
+    let access: string[] = [];
+    CookieUnit.get("access_token", access);
+    new APIHelper(access[0]).getSentenceRequest().enqueue(new class implements CurlCallback {
+        onFailure(call: CurlCall, exception: CurlToolException, requestId: number) {
+            Controller.finish(false);
+        }
+
+        onResponse(call: CurlCall, response: CurlResponse, requestId: number) {
+            const result = JSON.parse(response.body());
+            SharedPreferences.getInterface("user").edit()
+                .putString("sentence", result["string"])
+                .putString("from", result["from"])
+                .apply();
+        }
+    })
 }
 
-function onLoginFailed(code: number, message: string){
-    const error: HTMLElement = document.getElementById("login-error");
-    error.innerText = message + " (" + code + ")";
-}
-
-export function checkLogin(): boolean {
+function checkLogin(): void {
     const sp: SharedPreferences = SharedPreferences.getInterface("user");
     let access: string[] = [];
     CookieUnit.get("access_token", access);
-    if (access != null){
+    if (access.length > 0){
         const expire = sp.getNumber("token_expired", 0);
         if (expire < APIHelper.getTS()){
-            const refresh = sp.getString("refresh_token", "");
-            new LoginHelper().refreshToken(access[0], refresh, new class implements LoginCallback {
+            const refresh: string[] = [];
+            CookieUnit.get("refresh_token", refresh);
+            new LoginHelper().refreshToken(access[0], refresh[0], new class implements LoginCallback {
                 onResult(access: string, refresh: string) {
-                    onLoginResult(access, refresh);
+                    CookieUnit.set("access_token", access);
+                    CookieUnit.set("refresh_token", refresh);
+                    Controller.finish(true);
                 }
 
                 onFailure(code: number, message?: string, e?: CurlToolException) {
+                    // @ts-ignore
                     mdui.snackbar({
                         message: '登录状态失效，请重新登录'
                     })
+                    Controller.is_login = false;
+                    Controller.finish(false);
                 }
             })
         }
     } else {
-        return false;
+        Controller.is_login = false;
     }
+    Controller.finish(true);
 }
 
-export function getTable(): void {
-    const sp = SharedPreferences.getInterface("user");
-    const week: number = sp.getNumber("week", 0)
-    const school_year: string = sp.getString("school_year", "")
-    const semester: number = sp.getNumber("semester", 0)
-    const helper = new TableHelper(week)
-    helper.getTable(school_year, semester, new class implements TableCallback {
-        onFailure(code: number, message: string, e?: CurlToolException) {
-            mdui.snackbar({
-                message: '课表获取失败，' + message + '(' + code.toString() + ')'
-            })
-        }
-
-        onReadStart() {
-            const items: HTMLCollectionOf<Element> = document
-                .getElementsByClassName("schedule-item-base");
-            for (let i: number = 0; i < items.length; i++){
-                items.item(i).remove();
-            }
-        }
-
-        onRead(dayIndex: number, classIndex: number, data?: TableData) {
-            if (data != null){
-                const table: Element = document.getElementById("schedule-content");
-
-                const schedule_item: Element = document.createElement('div');
-                schedule_item.setAttribute(
-                    "style",
-                    "grid-column: "+dayIndex+"; grid-row: "+classIndex+";"
-                )
-                schedule_item.classList.add('schedule-item', 'mdui-card', 'mdui-ripple');
-                const table_item: Element = document.createElement('div');
-                table_item.id = 'table-item-title';
-                table_item.classList.add('mdui-cars-content', 'table-item-title');
-                table_item.textContent = data.name;
-                schedule_item.appendChild(table_item);
-
-                table_item.id = 'table-item-room';
-                table_item.classList.remove('table-item-title');
-                table_item.classList.add('table-item-content');
-                table_item.textContent = data.room;
-                schedule_item.appendChild(table_item);
-
-                table_item.id = 'table-item-teacher';
-                table_item.textContent = data.teacher;
-                schedule_item.appendChild(table_item);
-
-                table.appendChild(schedule_item);
-            }
-        }
-
-        onReadFinish(isEmpty: Boolean) {
-
-        }
-    })
-}
-
-export function logout(): void {
+function logout(): void {
     CookieUnit.remove("access_token");
     CookieUnit.remove("refresh_token");
+
+    HtmlCompatActivity.setVisibility(document
+        .getElementById("index-fragment"), false);
+    HtmlCompatActivity.setVisibility(document
+        .getElementById("login-fragment"), true);
 }
 
 export function clearCache(): void {
@@ -174,4 +206,10 @@ export function springboard(): void  {
             }
         })
     }
+}
+
+window.onload = function() {
+    getSentence();
+    getWeek();
+    checkLogin();
 }
