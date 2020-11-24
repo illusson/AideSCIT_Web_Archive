@@ -179,7 +179,7 @@ function checkLogin(): void {
     Controller.finish(true);
 }
 
-function logout(): void {
+export function logout(): void {
     CookieUnit.remove("access_token");
     CookieUnit.remove("refresh_token");
 
@@ -190,7 +190,9 @@ function logout(): void {
 }
 
 export function clearCache(): void {
-    localStorage.clear()
+    localStorage.removeItem("cache.table");
+    localStorage.removeItem("cache.achievement");
+    localStorage.removeItem("cache.exam");
 }
 
 export function springboard(): void  {
