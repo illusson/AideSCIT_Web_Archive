@@ -74,3 +74,16 @@
     margin: 50px auto 0 auto;
     width: 80%;
 }
+
+#jump-button, #mine-logout, #clear-cache {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    display: block;
+    width: 60%;
+    height: 40px;
+    border-radius: 20px;
+    font-size: 16px;
+    text-align: center;
+    line-height: 40px;
+}

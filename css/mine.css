@@ -33,19 +33,6 @@
     text-align: end;
 }
 
-#jump-button, #mine-logout {
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, 0);
-    display: block;
-    width: 60%;
-    height: 40px;
-    border-radius: 20px;
-    font-size: 16px;
-    text-align: center;
-    line-height: 40px;
-}
-
 #jump-button {
     bottom: 90px;
 }
