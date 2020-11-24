@@ -28,10 +28,14 @@ export function onDrawerListItemClick(index: number){
     DrawerController.index_now = index;
 }
 
-window.onload = function (){
+window.onload = function() {
     onDrawerListItemClick(4);
 }
 
 export function clearCache(){
     localStorage.clear()
+}
+
+export function springboard(){
+
 }
