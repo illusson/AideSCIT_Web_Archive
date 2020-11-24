@@ -16,6 +16,28 @@ export class LoginHelper {
         })
     }
 
+    public springboard(access: string, callback: SpringboardCallback){
+        const call = new APIHelper(access).getSpringboardRequest()
+        call.enqueue(new class implements CurlCallback {
+            onFailure(call: CurlCall, exception: CurlToolException, requestId: number) {
+                callback.onFailure(-101, "网络请求失败", exception)
+            }
+
+            onResponse(call: CurlCall, response: CurlResponse, requestId: number) {
+                if (response.code() == 200){
+                    const result = JSON.parse(response.body());
+                    if (result["code"] == 200){
+                        callback.onResult(result["location"]);
+                    } else {
+                        callback.onFailure(-114, result["message"]);
+                    }
+                } else {
+                    callback.onFailure(-115, "服务器内部出错");
+                }
+            }
+        })
+    }
+
     public refreshToken(access_token: string, refresh_token: string, callback: LoginCallback){
         const call = new APIHelper(access_token, refresh_token).getRefreshTokenRequest();
         call.enqueue(new class implements CurlCallback {
@@ -46,4 +68,9 @@ export class LoginHelper {
 export interface LoginCallback {
     onFailure(code: number, message?: string, e?: CurlToolException)
     onResult(access: string, refresh: string)
+}
+
+export interface SpringboardCallback {
+    onFailure(code: number, message?: string, e?: CurlToolException)
+    onResult(location: string)
 }

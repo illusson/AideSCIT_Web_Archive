@@ -4,12 +4,11 @@
     <meta charset="UTF-8">
     <meta name = "applicable-device" content = "mobile">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>SCIT教务助手 - 主页</title>
-    <script>
-        const exports = {};
-    </script>
+    <title>工科助手</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdui@1.0.1/dist/css/mdui.min.css"/>
     <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/welcome.css">
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/home.css">
     <link rel="stylesheet" href="css/achievement.css">
@@ -63,115 +62,143 @@
     </div>
 </div>
 <div class="root">
-    <div class="header">
-        <i class="header-actions mdui-icon material-icons mdui-ripple"
-           id="drawer-button"
-           mdui-drawer="{target: '#left-drawer'}">menu</i>
-        <p id="header-title"></p>
+    <div class="root-fragment" id="welcome-fragment">
+        <img id="welcome-logo" src="img/ic_logo_school.png" alt="logo">
+        <div id="welcome-content">
+            <img id="welcome-suyhan-logo" src="img/ic_logo_suyhan.png" alt="logo">
+            <p id="welcome-content-title">工科助手</p>
+            <p id="welcome-content-text">你的忠实仆从，遂幻工作室出品</p>
+        </div>
     </div>
-    <div class="body">
-        <div class="index-page" id="page-home" style="display: none;">
-            <h2 id="home-welcome">早上好，今天是第9周周四</h2>
-            <p id="home-soup-content">幸运的人一生都被童年治愈，不幸的人一生都在治愈童年。</p>
-            <p id="home-soup-author">阿尔弗雷德·阿德勒</p>
-            <div class="table-base">
-                <div class="table-header schedule-column">
-                    <p>周一</p><p>周二</p><p>周三</p><p>周四</p><p>周五</p><p>周六</p>
-                </div>
-                <div class="table-content-base">
-                    <div class="table-content schedule-content schedule-column schedule-row table-item-first">
-                        <div class="schedule-item-base" style="grid-column: 1; grid-row: 1;">
-                            <div class="schedule-item mdui-card mdui-ripple">
-                                <div class="mdui-cars-content table-item-title" id="table-item-title">工程力学Ⅱ</div>
-                                <div class="mdui-cars-content table-item-content" id="table-item-room">钟灵楼(6号楼)209</div>
-                                <div class="mdui-cars-content table-item-content" id="table-item-teacher">何运琪</div>
+    <div class="root-fragment" id="index-fragment" style="display: none;">
+        <div class="header">
+            <i class="header-actions mdui-icon material-icons mdui-ripple"
+               id="drawer-button"
+               mdui-drawer="{target: '#left-drawer'}">menu</i>
+            <p id="header-title"></p>
+        </div>
+        <div class="body">
+            <div class="index-page" id="page-home">
+                <h2 id="home-welcome">早上好，今天是第9周周四</h2>
+                <p id="home-soup-content">幸运的人一生都被童年治愈，不幸的人一生都在治愈童年。</p>
+                <p id="home-soup-author">阿尔弗雷德·阿德勒</p>
+                <div class="table-base">
+                    <div class="table-header schedule-column">
+                        <p>周一</p><p>周二</p><p>周三</p><p>周四</p><p>周五</p><p>周六</p>
+                    </div>
+                    <div class="table-content-base">
+                        <div class="table-content schedule-column schedule-row table-item-first" id="schedule-content">
+                            <div class="schedule-item-base" style="grid-column: 1; grid-row: 1;">
+                                <div class="schedule-item mdui-card mdui-ripple">
+                                    <div class="mdui-cars-content table-item-title" id="table-item-title">工程力学Ⅱ</div>
+                                    <div class="mdui-cars-content table-item-content" id="table-item-room">钟灵楼(6号楼)209</div>
+                                    <div class="mdui-cars-content table-item-content" id="table-item-teacher">何运琪</div>
+                                </div>
                             </div>
+                            <p class="table-divider" id="table-divider-noon">中午</p>
+                            <p class="table-divider" id="table-divider-evening">晚上</p>
                         </div>
-                        <p class="table-divider" id="table-divider-noon">中午</p>
-                        <p class="table-divider" id="table-divider-evening">晚上</p>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="index-page" id="page-achievement" style="display: none;">
-            <div class="achieve-toolbar">
-                <select class="mdui-select" id="achieve-year" mdui-select="{position: 'bottom'}">
-                    <option value="2019-2020" selected>2019-2020</option>
-                    <option value="2020-2021">2020-2021</option>
-                    <option value="2021-2022">2021-2022</option>
-                    <option value="2022-2023">2022-2023</option>
-                </select>
-                <select class="mdui-select" id="achieve-semester" mdui-select="{position: 'bottom'}">
-                    <option value="1" selected>1</option>
-                    <option value="2">2</option>
-                </select>
-                <div class="primary-button mdui-ripple" onclick="">查询</div>
-            </div>
-            <div class="table-base">
-                <div class="table-header achieve-passed-column">
-                    <p>课程</p><p>成绩</p><p>补考成绩</p><p>重修成绩</p><p>学分</p>
+            <div class="index-page" id="page-achievement" style="display: none;">
+                <div class="achieve-toolbar">
+                    <select class="mdui-select" id="achieve-year" mdui-select="{position: 'bottom'}">
+                        <option value="2019-2020" selected>2019-2020</option>
+                        <option value="2020-2021">2020-2021</option>
+                        <option value="2021-2022">2021-2022</option>
+                        <option value="2022-2023">2022-2023</option>
+                    </select>
+                    <select class="mdui-select" id="achieve-semester" mdui-select="{position: 'bottom'}">
+                        <option value="1" selected>1</option>
+                        <option value="2">2</option>
+                    </select>
+                    <div class="primary-button mdui-ripple" onclick="">查询</div>
                 </div>
-                <div class="table-content">
-                    <div class="table-content achieve-passed-column">
-                        <p class="table-item-first">大学体育Ⅱ</p><p>73</p><p></p><p></p><p>1.0</p>
-                        <p class="table-item-first">高等数学BⅡ</p><p>35</p><p>62</p><p></p><p>4.0</p>
+                <div class="table-base">
+                    <div class="table-header achieve-passed-column">
+                        <p>课程</p><p>成绩</p><p>补考成绩</p><p>重修成绩</p><p>学分</p>
                     </div>
+                    <div class="table-content">
+                        <div class="table-content achieve-passed-column">
+                            <p class="table-item-first">大学体育Ⅱ</p><p>73</p><p></p><p></p><p>1.0</p>
+                            <p class="table-item-first">高等数学BⅡ</p><p>35</p><p>62</p><p></p><p>4.0</p>
+                        </div>
+                    </div>
+                    <p class="table-empty" id="achieve-passed-empty" style="display: none">成绩暂未出炉哦~</p>
                 </div>
-                <p class="table-empty" id="achieve-passed-empty" style="display: none">成绩暂未出炉哦~</p>
+                <p class="achieve-table-title">至今未过的课程</p>
+                <div class="table-base">
+                    <div class="table-header achieve-failed-column">
+                        <p>课程</p><p>成绩</p>
+                    </div>
+                    <div class="table-content">
+                    </div>
+                    <p class="table-empty" id="achieve-failed-empty">恭喜你，目前为止所有课程都及格了呢~</p>
+                </div>
             </div>
-            <p class="achieve-table-title">至今未过的课程</p>
-            <div class="table-base">
-                <div class="table-header achieve-failed-column">
-                    <p>课程</p><p>成绩</p>
+            <div class="index-page" id="page-exam" style="display: none;">
+                <div class="table-base">
+                    <div class="table-header exam-column">
+                        <p>科目</p><p>时间</p><p>地点</p><p>座位号</p>
+                    </div>
+                    <div class="table-content">
+                    </div>
+                    <p class="table-empty" id="exam-empty">复习完了吗？这么着急考试？</p>
                 </div>
-                <div class="table-content">
+            </div>
+            <div class="index-page" id="page-mine" style="display: none;">
+                <img id="mine-avatar" src="img/drawable_avatar.png" alt="头像">
+                <p id="mine-name">赵海天 同学</p>
+                <div class="content-items">
+                    <div class="mdui-divider"></div>
+                    <div class="user-info-item mdui-ripple">
+                        <p>学院：</p><p class="user-info-content" id="user-info-faculty">智能制造与车辆工程学院</p>
+                    </div>
+                    <div class="mdui-divider"></div>
+                    <div class="user-info-item mdui-ripple">
+                        <p>专业：</p><p class="user-info-content" id="user-info-specialty">机器人工程</p>
+                    </div>
+                    <div class="mdui-divider"></div>
+                    <div class="user-info-item mdui-ripple">
+                        <p>年级：</p><p class="user-info-content" id="user-info-grade">2019</p>
+                    </div>
+                    <div class="mdui-divider"></div>
+                    <div class="user-info-item mdui-ripple">
+                        <p>班级：</p><p class="user-info-content" id="user-info-class">19机器人1班</p>
+                    </div>
+                    <div class="mdui-divider"></div>
                 </div>
-                <p class="table-empty" id="achieve-failed-empty">恭喜你，目前为止所有课程都及格了呢~</p>
+                <div class="primary-button mdui-ripple" id="jump-button"
+                     onclick="springboard();">
+                    前往教务系统
+                </div>
+                <div class="mdui-ripple" id="mine-logout" onclick="logout()">退出登录</div>
+            </div>
+            <div class="index-page" id="page-about" style="display: none;">
+                <img id="about-logo" src="img/ic_launcher.png" alt="logo">
+                <p id="about-name">SCIT教务助手</p>
+                <p id="about-copyright">Copyright © 2019-2020 遂幻工作室</p>
+                <div class="mdui-ripple" id="clear-cache" onclick="clearCache()">清除缓存数据</div>
             </div>
         </div>
-        <div class="index-page" id="page-exam" style="display: none;">
-            <div class="table-base">
-                <div class="table-header exam-column">
-                    <p>科目</p><p>时间</p><p>地点</p><p>座位号</p>
-                </div>
-                <div class="table-content">
-                </div>
-                <p class="table-empty" id="exam-empty">复习完了吗？这么着急考试？</p>
+    </div>
+    <div class="root=fragment" id="login-fragment" style="display: none;">
+        <div class="login-background"></div>
+        <div class="login-form">
+            <img class="header-logo" src="img/ic_logo_school_full.png" alt="logo">
+            <div class="input-base">
+                <input id="login-username" class="input-insert" type="text" />
             </div>
-        </div>
-        <div class="index-page" id="page-mine" style="display: none;">
-            <img id="mine-avatar" src="img/drawable_avatar.png" alt="头像">
-            <p id="mine-name">赵海天 同学</p>
-            <div class="content-items">
-                <div class="mdui-divider"></div>
-                <div class="user-info-item mdui-ripple">
-                    <p>学院：</p><p class="user-info-content" id="user-info-faculty">智能制造与车辆工程学院</p>
-                </div>
-                <div class="mdui-divider"></div>
-                <div class="user-info-item mdui-ripple">
-                    <p>专业：</p><p class="user-info-content" id="user-info-specialty">机器人工程</p>
-                </div>
-                <div class="mdui-divider"></div>
-                <div class="user-info-item mdui-ripple">
-                    <p>年级：</p><p class="user-info-content" id="user-info-grade">2019</p>
-                </div>
-                <div class="mdui-divider"></div>
-                <div class="user-info-item mdui-ripple">
-                    <p>班级：</p><p class="user-info-content" id="user-info-class">19机器人1班</p>
-                </div>
-                <div class="mdui-divider"></div>
+            <div class="input-base">
+                <input id="login-password" class="input-insert" type="password" />
             </div>
-            <div class="primary-button mdui-ripple" id="jump-button"
-                 onclick="springboard();">
+            <div id="login-error"></div>
+            <div class="primary-button mdui-ripple" id="login-button" onclick="onLoginAction()">登录</div>
+            <div class="mdui-ripple" id="login-jump-button"
+                 onclick="window.open('http://218.6.163.95:18080/zfca?yhlx=student&login=0122579031373493708&url=xs_main.aspx');">
                 前往教务系统
             </div>
-            <div class="mdui-ripple" id="mine-logout" onclick="logout()">退出登录</div>
-        </div>
-        <div class="index-page" id="page-about" style="display: none;">
-            <img id="about-logo" src="img/ic_launcher.png" alt="logo">
-            <p id="about-name">SCIT教务助手</p>
-            <p id="about-copyright">Copyright © 2019-2020 遂幻工作室</p>
-            <div class="mdui-ripple" id="clear-cache" onclick="clearCache()">清除缓存数据</div>
         </div>
     </div>
 </div>

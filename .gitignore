@@ -1,8 +1,6 @@
 /.idea
 
 # Project exclude paths
-/js/core/CacheUnit.js
-/js/core/CacheUnit.js.map
 /js/core/CookieUnit.js
 /js/core/CookieUnit.js.map
 /js/core/CurlUnit.js

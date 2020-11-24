@@ -25,7 +25,7 @@
 #about-copyright {
     position: absolute;
     color: darkgray;
-    bottom: 20px;
+    bottom: 10px;
     left: 50%;
     transform: translate(-50%, 0);
     white-space: nowrap;

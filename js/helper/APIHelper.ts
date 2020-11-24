@@ -24,6 +24,14 @@ export class APIHelper {
         return this.onReturn("login.php", args)
     }
 
+    public getSpringboardRequest(): CurlCall {
+        const url = "springboard.php"
+        const args = new Map<string, any>()
+            .set("access_token", this.access_token)
+            .set("ts", APIHelper.getTS())
+        return this.onReturn(url, args)
+    }
+
     public getRefreshTokenRequest(): CurlCall {
         const url = "token.php"
         const argArray: Map<string, any> = new Map<string, any>()
