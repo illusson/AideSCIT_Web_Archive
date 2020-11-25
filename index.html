@@ -114,7 +114,7 @@
                         <option value="1" selected>1</option>
                         <option value="2">2</option>
                     </select>
-                    <div class="primary-button mdui-ripple" onclick="">查询</div>
+                    <div class="primary-button mdui-ripple" onclick="onAchieveInquire()">查询</div>
                 </div>
                 <div class="table-base">
                     <div class="table-header achieve-passed-column">
@@ -204,7 +204,8 @@
                 <input id="login-password" class="input-insert" type="password" />
             </div>
             <div id="login-error"></div>
-            <div class="primary-button mdui-ripple" id="login-button" onclick="onLoginAction()">登录</div>
+            <div class="primary-button mdui-ripple" id="login-button"
+                 onclick="onLoginAction()">登录</div>
             <div class="mdui-ripple" id="login-jump-button"
                  onclick="window.open('http://218.6.163.95:18080/zfca?yhlx=student&login=0122579031373493708&url=xs_main.aspx');">
                 前往教务系统

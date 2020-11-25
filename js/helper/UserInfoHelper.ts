@@ -38,5 +38,5 @@ export class UserInfoHelper {
 
 export interface UserInfoCallback {
     onFailure(code: number, message?: string, e?: CurlToolException)
-    onResult(name: String, faculty: String, specialty: String, userClass: String, grade: number);
+    onResult(name: string, faculty: string, specialty: string, userClass: string, grade: number);
 }

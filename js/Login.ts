@@ -1,8 +1,12 @@
 import {HtmlCompatActivity} from "./core/HtmlCompatActivity";
 import {LoginCallback, LoginHelper} from "./helper/LoginHelper";
 import {CookieUnit} from "./core/CookieUnit";
+import {CurlToolException} from "./core/CurlUnit";
+import {UserInfoCallback, UserInfoHelper} from "./helper/UserInfoHelper";
+import {SharedPreferences} from "./core/SharedPreferences";
+import {Controller} from "./index";
 
-export class Login extends HtmlCompatActivity implements LoginCallback {
+export class Login extends HtmlCompatActivity implements UserInfoCallback {
     public onCreate() {
 
     }
@@ -14,16 +18,43 @@ export class Login extends HtmlCompatActivity implements LoginCallback {
         const error: HTMLElement = document.getElementById("login-error");
         error.textContent = "test";
 
-        new LoginHelper().login(username.nodeValue, password.nodeValue, this)
+        new LoginHelper().login(username.nodeValue, password.nodeValue, new class implements LoginCallback {
+            onFailure(code: number, message?: string, e?: CurlToolException) {
+                // @ts-ignore
+                mdui.snackbar({
+                    message: '登录失败，' + message + '(' + code.toString() + ')'
+                })
+            }
+
+            onResult(access: string, refresh: string) {
+                CookieUnit.set("access_token", access);
+                CookieUnit.set("refresh_token", refresh);
+
+                new UserInfoHelper().getUserInfo(this);
+            }
+        })
     }
 
-    onResult(access: string, refresh: string): void {
-        CookieUnit.set("access_token", access);
-        CookieUnit.set("refresh_token", refresh);
+    onFailure(code: number, message?: string, e?: CurlToolException) {
+        // @ts-ignore
+        mdui.snackbar({
+            message: '用户信息获取失败，' + message + '(' + code.toString() + ')'
+        })
     }
 
-    onFailure(code: number, message: string): void {
-        const error: HTMLElement = document.getElementById("login-error");
-        error.innerText = message + " (" + code + ")";
+    onResult(name: string, faculty: string, specialty: string, userClass: string, grade: number) {
+        SharedPreferences.getInterface("user").edit()
+            .putString("name", name)
+            .putString("faculty", faculty)
+            .putString("specialty", specialty)
+            .putString("userClass", userClass)
+            .putNumber("grade", grade)
+            .apply();
+
+        Controller.getActivity("Home").onCreate();
+        HtmlCompatActivity.setVisibility(document
+            .getElementById("index-fragment"), true);
+        HtmlCompatActivity.setVisibility(document
+            .getElementById("login-fragment"), false);
     }
 }

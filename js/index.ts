@@ -3,8 +3,6 @@ import {LoginCallback, LoginHelper, SpringboardCallback} from "./helper/LoginHel
 import {CurlCall, CurlCallback, CurlResponse, CurlToolException} from "./core/CurlUnit";
 import {SharedPreferences} from "./core/SharedPreferences";
 import {APIHelper} from "./helper/APIHelper";
-import {ExamHelper} from "./helper/ExamHelper";
-import {AchievementHelper} from "./helper/AchievementHelper";
 import {Map} from "./core/Map";
 import {HtmlCompatActivity} from "./core/HtmlCompatActivity";
 import {Home} from "./Home";
@@ -27,7 +25,7 @@ export class Controller {
         Controller.activities.set("Achievement", new Achievement());
     }
 
-    public static getActivity(key: string): HtmlCompatActivity {
+    public static getActivity(key: string) {
         if (this.activities.has(key)){
             return this.activities.get(key);
         } else {
@@ -177,6 +175,21 @@ function checkLogin(): void {
         Controller.is_login = false;
     }
     Controller.finish(true);
+}
+
+export function onLoginAction(){
+    const login_activity: Login = (<Login>Controller.getActivity('Login'))
+    login_activity.onLoginAction();
+}
+
+export function onAchieveInquire(){
+    const achieve_activity: Achievement = (<Achievement>Controller.getActivity('Achievement'))
+    achieve_activity.getAchievement();
+}
+
+export function onExamInquire(){
+    const exam_activity: Exam = (<Exam>Controller.getActivity('Exam'))
+    exam_activity.getExam();
 }
 
 export function logout(): void {

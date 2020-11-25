@@ -10,6 +10,40 @@ export class Achievement extends HtmlCompatActivity implements AchievementCallba
     private failed_count = 0;
 
     public onCreate() {
+        const sp = SharedPreferences.getInterface("user");
+        const school_year: string = sp.getString(
+            "school_year_inquire",
+            sp.getString("school_year", "2019-2020")
+        );
+        const semester: number = sp.getNumber(
+            "semester_inquire",
+            sp.getNumber("semester", 0)
+        );
+        const grade: number = sp.getNumber("grade", 2019);
+
+        const achieve_year: Element = document.getElementById("achieve-year");
+        const achieve_year_item: Element = document.createElement('option');
+        for (let i: number = 0; i < 4; i++){
+            const value = (grade + i).toString() + "-" + (grade + i + 1).toString();
+            achieve_year_item.setAttribute("value", value);
+            achieve_year_item.textContent = value;
+            if (value == school_year){
+                achieve_year_item.setAttribute("selected", null)
+            }
+            achieve_year.appendChild(achieve_year_item);
+        }
+
+        const achieve_semester: Element = document.getElementById("achieve-semester");
+        const achieve_semester_item: Element = document.createElement('option');
+        for (let i: number = 0; i < 2; i++){
+            achieve_semester_item.setAttribute("value", i.toString());
+            achieve_semester_item.textContent = (i + 1).toString();
+            if (i == semester){
+                achieve_semester_item.setAttribute("selected", null)
+            }
+            achieve_semester.appendChild(achieve_semester_item);
+        }
+
         const achievement = localStorage.getItem("cache.achievement");
         if (achievement != null){
             AchievementHelper.parse(achievement, this);
@@ -18,11 +52,14 @@ export class Achievement extends HtmlCompatActivity implements AchievementCallba
         }
     }
 
-    private getAchievement(){
-        const sp = SharedPreferences.getInterface("user");
-        const school_year: string = sp.getString("school_year", "");
-        const semester: number = sp.getNumber("semester", 0);
-        new AchievementHelper().get(school_year, semester, this);
+    public getAchievement(){
+        const school_year_inquire: string = document.getElementById("achieve-year").nodeValue;
+        const semester_inquire: number = parseInt(document.getElementById("achieve-semester").nodeValue);
+        SharedPreferences.getInterface("user").edit()
+            .putString("school_year_inquire", school_year_inquire)
+            .putNumber("semester_inquire", semester_inquire)
+            .apply();
+        new AchievementHelper().get(school_year_inquire, semester_inquire, this);
     }
 
     onFailure(code: number, message?: string, e?: CurlToolException) {
