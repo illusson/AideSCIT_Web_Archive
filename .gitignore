@@ -11,6 +11,8 @@
 /js/core/RSAStaticUnit.js.map
 /js/core/SharedPreferences.js
 /js/core/SharedPreferences.js.map
+/js/core/HtmlCompatActivity.js
+/js/core/HtmlCompatActivity.js.map
 /js/data/ExamData.js
 /js/data/ExamData.js.map
 /js/data/FailedMarkData.js
@@ -29,6 +31,8 @@
 /js/helper/TableHelper.js.map
 /js/helper/UserInfoHelper.js
 /js/helper/UserInfoHelper.js.map
+/js/helper/AchievementHelper.js
+/js/helper/AchievementHelper.js.map
 /js/Login.js
 /js/Login.js.map
 /js/Exam.js
