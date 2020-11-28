@@ -7,9 +7,7 @@ export class ExamHelper {
     private readonly access_token: string;
 
     constructor() {
-        let access_token: string[] = [""];
-        CookieUnit.get("access_token", access_token)
-        this.access_token = access_token[0];
+        this.access_token = CookieUnit.get("access_token");
     }
 
     public getExamInfo(callback: ExamCallback){

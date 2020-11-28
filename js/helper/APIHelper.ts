@@ -118,11 +118,13 @@ export class APIHelper {
             .build();
         const request_builder = new CurlRequestBuilder();
         if (method == APIHelper.METHOD_POST){
-            request_builder.url(url_final);
             request_builder.post(form);
         } else {
-            request_builder.url(url_final + "?" + form.getFormBody());
+            if (argArray != null){
+                url_final = url_final + "?" + form.getFormBody()
+            }
         }
+        request_builder.url(url_final);
         const request = request_builder.build();
         return client.newCall(request);
     }

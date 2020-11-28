@@ -2,15 +2,14 @@ import {CurlCall, CurlCallback, CurlResponse, CurlToolException} from "../core/C
 import {TableData} from "../data/TableData";
 import {APIHelper} from "./APIHelper";
 import {CookieUnit} from "../core/CookieUnit";
+import {Log} from "../core/Log";
 
 export class TableHelper {
     private readonly access_token: string;
     private readonly week: number;
 
     constructor(week: number) {
-        let access_token: string[] = [""];
-        CookieUnit.get("access_token", access_token)
-        this.access_token = access_token[0];
+        this.access_token = CookieUnit.get("access_token");
         this.week = week;
     }
 

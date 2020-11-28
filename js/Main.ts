@@ -9,6 +9,7 @@ import {Home} from "./Home";
 import {Exam} from "./Exam";
 import {Login} from "./Login";
 import {Achievement} from "./Achievement";
+import {Log} from "./core/Log";
 
 export class Controller {
     public static drawer_index_now: number = -1;
@@ -65,6 +66,7 @@ export class Controller {
                     mdui.snackbar({
                         message: '网页初始化失败，请尝试刷新网页'
                     })
+                    return;
                 }
                 onDrawerListItemClick(0);
                 page = document.getElementById("index-fragment");
@@ -126,14 +128,15 @@ function getWeek(): void {
                         } else if (day_count == 18 && new Date().getDay() == 0){
                             day_count = 0;
                         }
+                        Log.d("day_count", day_count.toString());
                         SharedPreferences.getInterface('user').edit()
                             .putNumber("week", day_count)
                             .putNumber("semester", result['semester'])
                             .putNumber("school_year", result['school_year'])
                             .apply();
-                        Controller.finish(true);
-                        return;
                     }
+                    Controller.finish(true);
+                    return;
                 }
             }
             Controller.finish(false);
@@ -142,9 +145,8 @@ function getWeek(): void {
 }
 
 function getSentence(): void {
-    let access: string[] = [];
-    CookieUnit.get("access_token", access);
-    new APIHelper(access[0]).getSentenceCall().enqueue(new class implements CurlCallback {
+    const access: string = CookieUnit.get("access_token");
+    new APIHelper(access).getSentenceCall().enqueue(new class implements CurlCallback {
         onFailure(call: CurlCall, exception: CurlToolException, requestId: number) {
             Controller.finish(false);
         }
@@ -166,18 +168,15 @@ function getSentence(): void {
 
 function checkLogin(): void {
     const sp: SharedPreferences = SharedPreferences.getInterface("user");
-    let access: string[] = [];
-    CookieUnit.get("access_token", access);
-    if (access.length > 0){
+    let access: string = CookieUnit.get("access_token");
+    if (access != null){
         const expire = sp.getNumber("token_expired", 0);
         if (expire < APIHelper.getTS()){
             Controller.total_count = 4;
-            const refresh: string[] = [];
-            CookieUnit.get("refresh_token", refresh);
-            new LoginHelper().refreshToken(access[0], refresh[0], new class implements LoginCallback {
+            const refresh: string = CookieUnit.get("refresh_token");
+            new LoginHelper().refreshToken(access, refresh, new class implements LoginCallback {
                 onResult(access: string, refresh: string) {
-                    CookieUnit.set("access_token", access);
-                    CookieUnit.set("refresh_token", refresh);
+                    Login.onLoginResult(access, refresh);
                     Controller.finish(true);
                 }
 
@@ -226,8 +225,8 @@ export function clearCache(): void {
 }
 
 export function springboard(): void {
-    let access: string[] = [];
-    if (CookieUnit.get("access_token", access) == 1){
+    let access: string = CookieUnit.get("access_token");
+    if (access != null){
         new LoginHelper().springboard(access[0], new class implements SpringboardCallback {
             onFailure(code: number, message?: string, e?: CurlToolException) {
                 window.open('http://218.6.163.95:18080/zfca?yhlx=student&login=0122579031373493708&url=xs_main.aspx');
@@ -237,6 +236,8 @@ export function springboard(): void {
                 window.open(location);
             }
         })
+    } else {
+        window.open('http://218.6.163.95:18080/zfca?yhlx=student&login=0122579031373493708&url=xs_main.aspx');
     }
 }
 

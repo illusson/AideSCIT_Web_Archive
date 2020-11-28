@@ -1,4 +1,5 @@
 import {Map, MapForEachCallback} from "./Map";
+import {Log} from "./Log";
 
 export class CurlClientBuilder {
     private follow_location: boolean = true;
@@ -123,7 +124,9 @@ export class FormBodyBuilder {
                 if (form_string != "") {
                     form_string = form_string + "&";
                 }
-                form_string = form_string + key + "=" + value;
+                if (key != "access_token") {
+                    form_string = form_string + key + "=" + value;
+                }
 
                 if (body_string != "") {
                     body_string = body_string + "&";
@@ -199,6 +202,9 @@ export class CurlCall {
         }
 
         this.xmlRequest.open(this.method, this.url, true);
+        this.xmlRequest.withCredentials = true;
+        this.xmlRequest.setRequestHeader("Content-Type",
+            "application/x-www-form-urlencoded;charset=utf-8");
         this.xmlRequest.send(this.body);
         if (this.xmlRequest.getAllResponseHeaders() != ""){
             const header_array = this.xmlRequest.getAllResponseHeaders().split("\n");
@@ -211,6 +217,9 @@ export class CurlCall {
 
     public execute(): CurlResponse {
         this.xmlRequest.open(this.method, this.url, false);
+        this.xmlRequest.withCredentials = true;
+        this.xmlRequest.setRequestHeader("Content-Type",
+            "application/x-www-form-urlencoded;charset=utf-8");
         this.xmlRequest.send(this.body);
         const headers: Map<string, string> = new Map<string, string>();
         if (this.xmlRequest.getAllResponseHeaders() != ""){

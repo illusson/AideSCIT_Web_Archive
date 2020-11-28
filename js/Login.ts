@@ -5,7 +5,6 @@ import {CurlToolException} from "./core/CurlUnit";
 import {UserInfoCallback, UserInfoHelper} from "./helper/UserInfoHelper";
 import {SharedPreferences} from "./core/SharedPreferences";
 import {Controller} from "./Main";
-import {Log} from "./core/Log";
 
 export class Login extends HtmlCompatActivity implements UserInfoCallback {
     public onCreate() {
@@ -22,6 +21,7 @@ export class Login extends HtmlCompatActivity implements UserInfoCallback {
                 message: '账号或密码为空'
             })
         } else {
+            const this_Login: Login = this;
             new LoginHelper().login(username.value, password.value, new class implements LoginCallback {
                 onFailure(code: number, message?: string, e?: CurlToolException) {
                     // @ts-ignore
@@ -31,13 +31,26 @@ export class Login extends HtmlCompatActivity implements UserInfoCallback {
                 }
 
                 onResult(access: string, refresh: string) {
-                    CookieUnit.set("access_token", access);
-                    CookieUnit.set("refresh_token", refresh);
+                    Login.onLoginResult(access, refresh);
 
-                    new UserInfoHelper().getUserInfo(this);
+                    new UserInfoHelper().getUserInfo(this_Login);
                 }
             })
         }
+    }
+
+    static onLoginResult(access: string, refresh: string){
+        const date_1 = new Date();
+        date_1.setDate(date_1.getDate() + 30);
+        SharedPreferences.getInterface("user").edit()
+            .putNumber("token_expired", date_1.getMilliseconds() + 2592000)
+            .apply();
+
+        CookieUnit.set("access_token", access, date_1, "/");
+
+        const date_2 = new Date();
+        date_2.setFullYear(date_2.getFullYear() + 4);
+        CookieUnit.set("refresh_token", refresh, date_2, "/");
     }
 
     onFailure(code: number, message?: string, e?: CurlToolException) {

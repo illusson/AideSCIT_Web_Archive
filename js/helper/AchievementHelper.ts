@@ -8,9 +8,7 @@ export class AchievementHelper {
     private readonly access_token: string;
 
     constructor() {
-        let access_token: string[] = [""];
-        CookieUnit.get("access_token", access_token)
-        this.access_token = access_token[0];
+        this.access_token = CookieUnit.get("access_token");
     }
 
     public get(school_year: string, semester: number, callback: AchievementCallback){
@@ -38,7 +36,7 @@ export class AchievementHelper {
 
     public static parse(response: string, callback: AchievementCallback){
         callback.onReadStart();
-        const result: any = JSON.parse(response);
+        const result: any = JSON.parse(response)["achievement"];
         const passed: any = result["passed"];
         if (passed["count"] > 0){
             const data: any = passed["data"];
