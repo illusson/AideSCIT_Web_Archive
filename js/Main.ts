@@ -12,62 +12,76 @@ import {Achievement} from "./Achievement";
 
 export class Controller {
     public static drawer_index_now: number = -1;
-    private static readonly total_count = 3;
+    public static total_count = 3;
     public static is_finished: boolean[] = [];
     public static is_login: boolean = true;
 
-    private static activities: Map<string, HtmlCompatActivity> = new Map<string, HtmlCompatActivity>();
+    public static readonly Login: Login = new Login();
+    public static readonly Home: Home = new Home();
+    public static readonly Achievement: Achievement = new Achievement();
+    public static readonly Exam: Exam = new Exam();
 
     public static setup() {
-        Controller.activities.set("Home", new Home());
-        Controller.activities.set("Exam", new Exam());
-        Controller.activities.set("Login", new Login());
-        Controller.activities.set("Achievement", new Achievement());
-    }
-
-    public static getActivity(key: string) {
-        if (this.activities.has(key)){
-            return this.activities.get(key);
-        } else {
-            return new class extends HtmlCompatActivity {
-                onCreate() { }
-            }
+        document.getElementById("login-button").onclick = function() {
+            onLoginAction();
+        }
+        document.getElementById("clear-cache").onclick = function() {
+            clearCache();
+        }
+        document.getElementById("mine-logout").onclick = function() {
+            logout();
+        }
+        document.getElementById("login-jump-button").onclick = function() {
+            window.open('http://218.6.163.95:18080/zfca?yhlx=student&login=0122579031373493708&url=xs_main.aspx');
+        }
+        document.getElementById("jump-button").onclick = function() {
+            springboard();
+        }
+        document.getElementById("achieve-inquire").onclick = function() {
+            onAchieveInquire();
+        }
+        const pages: HTMLCollectionOf<Element> = document
+            .getElementsByClassName("drawer-list");
+        for (let i = 0; i < pages.length; i++) {
+            pages.item(i).addEventListener("click", function () {
+                onDrawerListItemClick(i);
+            })
         }
     }
 
     public static finish(value: boolean): void {
         Controller.is_finished.push(value);
         if (Controller.is_finished.length >= Controller.total_count){
-            let finished = true;
-            this.is_finished.forEach(function (value, index, array) {
-                finished = finished && value;
-            })
-            if (finished){
-                HtmlCompatActivity.setVisibility(document
-                    .getElementById("welcome-fragment"), false);
-                let page: Element;
-                if (Controller.is_login){
-                    onDrawerListItemClick(0);
-                    page = document.getElementById("index-fragment");
-                } else {
-                    this.getActivity("Login").onCreate();
-                    page = document.getElementById("login-fragment");
-                }
-                HtmlCompatActivity.setVisibility(page, true);
-            } else {
-                // @ts-ignore
-                mdui.snackbar({
-                    message: '网页初始化失败，请尝试刷新网页'
+            let page: Element;
+            if (Controller.is_login){
+                let finished = true;
+                this.is_finished.forEach(function (value, index, array) {
+                    finished = finished && value;
                 })
+                if (finished){
+                    onDrawerListItemClick(0);
+                } else {
+                    // @ts-ignore
+                    mdui.snackbar({
+                        message: '网页初始化失败，请尝试刷新网页'
+                    })
+                }
+                onDrawerListItemClick(0);
+                page = document.getElementById("index-fragment");
+            } else {
+                page = document.getElementById("login-fragment");
             }
+            HtmlCompatActivity.setVisibility(document
+                .getElementById("welcome-fragment"), false);
+            HtmlCompatActivity.setVisibility(page, true);
         }
     }
 }
 
 export function onDrawerListItemClick(index: number): void {
-    const activity_list: string[] = ["Home", "Achievement", "Exam"];
+    const activity_list: any[] = [Controller.Home, Controller.Achievement, Controller.Exam];
     if (index < 3){
-        Controller.getActivity(activity_list[index]).onCreate();
+        activity_list[index].onCreate();
     }
 
     const active_list: HTMLCollectionOf<Element> = document.getElementsByClassName("mdui-list-item-active");
@@ -136,11 +150,16 @@ function getSentence(): void {
         }
 
         onResponse(call: CurlCall, response: CurlResponse, requestId: number) {
-            const result = JSON.parse(response.body());
-            SharedPreferences.getInterface("user").edit()
-                .putString("sentence", result["string"])
-                .putString("from", result["from"])
-                .apply();
+            try {
+                const result = JSON.parse(response.body());
+                SharedPreferences.getInterface("user").edit()
+                    .putString("sentence", result["string"])
+                    .putString("from", result["from"])
+                    .apply();
+                Controller.finish(true);
+            } catch (e){
+                Controller.finish(false);
+            }
         }
     })
 }
@@ -152,6 +171,7 @@ function checkLogin(): void {
     if (access.length > 0){
         const expire = sp.getNumber("token_expired", 0);
         if (expire < APIHelper.getTS()){
+            Controller.total_count = 4;
             const refresh: string[] = [];
             CookieUnit.get("refresh_token", refresh);
             new LoginHelper().refreshToken(access[0], refresh[0], new class implements LoginCallback {
@@ -178,18 +198,15 @@ function checkLogin(): void {
 }
 
 export function onLoginAction(){
-    const login_activity: Login = (<Login>Controller.getActivity('Login'))
-    login_activity.onLoginAction();
+    Controller.Login.onLoginAction();
 }
 
 export function onAchieveInquire(){
-    const achieve_activity: Achievement = (<Achievement>Controller.getActivity('Achievement'))
-    achieve_activity.getAchievement();
+    Controller.Achievement.getAchievement();
 }
 
 export function onExamInquire(){
-    const exam_activity: Exam = (<Exam>Controller.getActivity('Exam'))
-    exam_activity.getExam();
+    Controller.Exam.getExam();
 }
 
 export function logout(): void {
@@ -208,7 +225,7 @@ export function clearCache(): void {
     localStorage.removeItem("cache.exam");
 }
 
-export function springboard(): void  {
+export function springboard(): void {
     let access: string[] = [];
     if (CookieUnit.get("access_token", access) == 1){
         new LoginHelper().springboard(access[0], new class implements SpringboardCallback {
@@ -224,6 +241,8 @@ export function springboard(): void  {
 }
 
 window.onload = function() {
+    Controller.setup();
+
     getSentence();
     getWeek();
     checkLogin();

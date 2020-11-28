@@ -19,17 +19,17 @@ export class APIHelper {
     public getLoginCall(username: string, password: string): CurlCall {
         const args = new Map<string, any>()
             .set("password", password)
-            .set("js", APIHelper.getTS())
+            .set("ts", APIHelper.getTS())
             .set("username", username);
-        return this.onReturn("login.php", args)
+        return this.onReturn("login.php", args, APIHelper.METHOD_POST, true);
     }
 
     public getSpringboardRequest(): CurlCall {
         const url = "springboard.php"
         const args = new Map<string, any>()
             .set("access_token", this.access_token)
-            .set("js", APIHelper.getTS())
-        return this.onReturn(url, args)
+            .set("ts", APIHelper.getTS())
+        return this.onReturn(url, args, APIHelper.METHOD_POST, true);
     }
 
     public getRefreshTokenRequest(): CurlCall {
@@ -37,16 +37,16 @@ export class APIHelper {
         const argArray: Map<string, any> = new Map<string, any>()
             .set("access_token", this.access_token)
             .set("refresh_token", this.refresh_token)
-            .set("js", APIHelper.getTS());
-        return this.onReturn(url, argArray)
+            .set("ts", APIHelper.getTS());
+        return this.onReturn(url, argArray, APIHelper.METHOD_POST, true);
     }
 
     public getSentenceRequest(): CurlCall {
         const url = "hitokoto.php"
         const argArray: Map<string, any> = new Map<string, any>()
             .set("access_token", this.access_token)
-            .set("js", APIHelper.getTS());
-        return this.onReturn(url, argArray)
+            .set("ts", APIHelper.getTS());
+        return this.onReturn(url, argArray, APIHelper.METHOD_POST, true);
     }
 
     public getDayRequest(): CurlCall {
@@ -57,8 +57,8 @@ export class APIHelper {
         const url = "info.php"
         const argArray: Map<string, any> = new Map<string, any>()
             .set("access_token", this.access_token)
-            .set("js", APIHelper.getTS());
-        return this.onReturn(url, argArray)
+            .set("ts", APIHelper.getTS());
+        return this.onReturn(url, argArray, APIHelper.METHOD_POST, true);
     }
 
     public getTableRequest(year: string, semester: number): CurlCall {
@@ -66,17 +66,17 @@ export class APIHelper {
         const argArray: Map<string, any> = new Map<string, any>()
             .set("access_token", this.access_token)
             .set("semester", semester)
-            .set("js", APIHelper.getTS())
+            .set("ts", APIHelper.getTS())
             .set("year", year);
-        return this.onReturn(url, argArray)
+        return this.onReturn(url, argArray, APIHelper.METHOD_POST, true);
     }
 
     public getExamRequest(): CurlCall {
         const url = "exam.php"
         const argArray: Map<string, any> = new Map<string, any>()
             .set("access_token", this.access_token)
-            .set("js", APIHelper.getTS());
-        return this.onReturn(url, argArray)
+            .set("ts", APIHelper.getTS());
+        return this.onReturn(url, argArray, APIHelper.METHOD_POST, true);
     }
 
     public getAchievementRequest(year: string, semester: number): CurlCall {
@@ -84,13 +84,13 @@ export class APIHelper {
         const argArray: Map<string, any> = new Map<string, any>()
             .set("access_token", this.access_token)
             .set("semester", semester)
-            .set("js", APIHelper.getTS())
+            .set("ts", APIHelper.getTS())
             .set("year", year);
-        return this.onReturn(url, argArray)
+        return this.onReturn(url, argArray, APIHelper.METHOD_POST, true);
     }
 
     private onReturn(url: string, argArray: Map<string, any> = new Map<string, any>(),
-        method: number = APIHelper.METHOD_POST, withSign: Boolean = true): CurlCall {
+        method: number = APIHelper.METHOD_GET, withSign: Boolean = false): CurlCall {
         let url_final;
         if (url.substr(0, 4) == "http"){
             url_final = url;
@@ -98,11 +98,13 @@ export class APIHelper {
             url_final = APIHelper.API_HOST + "/" + (APIHelper.debug ? "v2" : "web") + "/" + url;
         }
         const form_builder = new FormBodyBuilder();
-        argArray.forEach(new class implements MapForEachCallback<string, any> {
-            onEach(key: string, value: any, map: Map<string, any>) {
-                form_builder.add(key.toString(), value);
-            }
-        })
+        if (argArray != null){
+            argArray.forEach(new class implements MapForEachCallback<string, any> {
+                onEach(key: string, value: any, map: Map<string, any>) {
+                    form_builder.add(key.toString(), value);
+                }
+            })
+        }
         let form;
         if (withSign){
             form = form_builder.build("Vwm86Wo5JEyu0Om0uGHpp1UJbhyC1V1F");

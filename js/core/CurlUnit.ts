@@ -134,7 +134,10 @@ export class FormBodyBuilder {
             }
         })
         if (app_secret != ""){
-            body_string = body_string + "&sign=" + MD5.getMD5(form_string + app_secret);
+            if (body_string != ""){
+                body_string = body_string + "&";
+            }
+            body_string = body_string + "sign=" + MD5.getMD5(form_string + app_secret);
         }
         return new FormBody(body_string);
     }
@@ -188,7 +191,7 @@ export class CurlCall {
         this.xmlRequest.ontimeout = function (e){
             callback.onFailure(call_this, new CurlToolException(e.type), requestId);
         }
-        this.xmlRequest.onload = function (e){
+        this.xmlRequest.onloadend = function (e){
             callback.onResponse(call_this, new CurlResponse (
                 call_this.xmlRequest.status,
                 call_this.responseHeader,
@@ -234,12 +237,14 @@ export interface CurlCallback {
 export class CurlResponse {
     private readonly code_value: number;
     private readonly headers_array: Map<string, string>;
-    private readonly body_string: string;
+    private readonly body_string: string = "";
 
     constructor(code: number, headers: Map<string, string>, body: string) {
         this.code_value = code;
         this.headers_array = headers;
-        this.body_string = body;
+        if (body != null){
+            this.body_string = body;
+        }
     }
 
     public code(): number {
