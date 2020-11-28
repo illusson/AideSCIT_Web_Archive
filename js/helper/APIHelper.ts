@@ -97,7 +97,6 @@ export class APIHelper {
         } else {
             url_final = APIHelper.API_HOST + "/" + (APIHelper.debug ? "v2" : "web") + "/" + url;
         }
-        console.info(url_final);
         const form_builder = new FormBodyBuilder();
         argArray.forEach(new class implements MapForEachCallback<string, any> {
             onEach(key: string, value: any, map: Map<string, any>) {

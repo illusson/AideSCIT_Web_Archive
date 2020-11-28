@@ -4,7 +4,7 @@ import {CookieUnit} from "./core/CookieUnit";
 import {CurlToolException} from "./core/CurlUnit";
 import {UserInfoCallback, UserInfoHelper} from "./helper/UserInfoHelper";
 import {SharedPreferences} from "./core/SharedPreferences";
-import {Controller} from "./index";
+import {Controller} from "./Main";
 
 export class Login extends HtmlCompatActivity implements UserInfoCallback {
     public onCreate() {

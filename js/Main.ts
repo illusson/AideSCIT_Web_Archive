@@ -30,7 +30,7 @@ export class Controller {
             return this.activities.get(key);
         } else {
             return new class extends HtmlCompatActivity {
-                onCreate() {}
+                onCreate() { }
             }
         }
     }
