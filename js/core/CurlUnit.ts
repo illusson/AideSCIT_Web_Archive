@@ -260,8 +260,13 @@ export class CurlResponse {
 }
 
 export class CurlToolException {
+    public message?: string;
+    public name?: string;
+
     constructor(message?: string, name?: string) {
-        throw new DOMException(message, name);
+        this.message = message;
+        this.name = name;
+        return new DOMException(message, name);
     }
 }
 

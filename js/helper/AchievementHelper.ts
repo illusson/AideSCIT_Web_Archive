@@ -6,7 +6,6 @@ import {PassedMarkData} from "../data/PassedMarkData";
 
 export class AchievementHelper {
     private readonly access_token: string;
-    private readonly week: number;
 
     constructor() {
         let access_token: string[] = [""];

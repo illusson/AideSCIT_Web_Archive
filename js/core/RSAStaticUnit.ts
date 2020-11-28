@@ -7,7 +7,7 @@ class RSAStaticUnit {
         "-----END PUBLIC KEY-----";
 
     public static encrypted(data: string): string {
-        // @ts-ignore
+        // @js-ignore
         const jse = new JSEncrypt();
         jse.setPublicKey(RSAStaticUnit.public_key);
         return jse.encrypt(data);

@@ -19,7 +19,7 @@ export class APIHelper {
     public getLoginCall(username: string, password: string): CurlCall {
         const args = new Map<string, any>()
             .set("password", password)
-            .set("ts", APIHelper.getTS())
+            .set("js", APIHelper.getTS())
             .set("username", username);
         return this.onReturn("login.php", args)
     }
@@ -28,7 +28,7 @@ export class APIHelper {
         const url = "springboard.php"
         const args = new Map<string, any>()
             .set("access_token", this.access_token)
-            .set("ts", APIHelper.getTS())
+            .set("js", APIHelper.getTS())
         return this.onReturn(url, args)
     }
 
@@ -37,7 +37,7 @@ export class APIHelper {
         const argArray: Map<string, any> = new Map<string, any>()
             .set("access_token", this.access_token)
             .set("refresh_token", this.refresh_token)
-            .set("ts", APIHelper.getTS());
+            .set("js", APIHelper.getTS());
         return this.onReturn(url, argArray)
     }
 
@@ -45,7 +45,7 @@ export class APIHelper {
         const url = "hitokoto.php"
         const argArray: Map<string, any> = new Map<string, any>()
             .set("access_token", this.access_token)
-            .set("ts", APIHelper.getTS());
+            .set("js", APIHelper.getTS());
         return this.onReturn(url, argArray)
     }
 
@@ -57,7 +57,7 @@ export class APIHelper {
         const url = "info.php"
         const argArray: Map<string, any> = new Map<string, any>()
             .set("access_token", this.access_token)
-            .set("ts", APIHelper.getTS());
+            .set("js", APIHelper.getTS());
         return this.onReturn(url, argArray)
     }
 
@@ -66,7 +66,7 @@ export class APIHelper {
         const argArray: Map<string, any> = new Map<string, any>()
             .set("access_token", this.access_token)
             .set("semester", semester)
-            .set("ts", APIHelper.getTS())
+            .set("js", APIHelper.getTS())
             .set("year", year);
         return this.onReturn(url, argArray)
     }
@@ -75,7 +75,7 @@ export class APIHelper {
         const url = "exam.php"
         const argArray: Map<string, any> = new Map<string, any>()
             .set("access_token", this.access_token)
-            .set("ts", APIHelper.getTS());
+            .set("js", APIHelper.getTS());
         return this.onReturn(url, argArray)
     }
 
@@ -84,25 +84,20 @@ export class APIHelper {
         const argArray: Map<string, any> = new Map<string, any>()
             .set("access_token", this.access_token)
             .set("semester", semester)
-            .set("ts", APIHelper.getTS())
+            .set("js", APIHelper.getTS())
             .set("year", year);
         return this.onReturn(url, argArray)
     }
 
-    public getUpdateRequest(version: string): CurlCall {
-        const url = "https://tool.eclass.sgpublic.xyz/update/index.php"
-        const argArray: Map<string, any> = new Map<string, any>()
-            .set("version", version);
-        return this.onReturn(url, argArray, APIHelper.METHOD_GET, false)
-    }
-
-    private onReturn(url: string, argArray: Map<string, any> = null, method: number = APIHelper.METHOD_POST, withSign: Boolean = true): CurlCall {
+    private onReturn(url: string, argArray: Map<string, any> = new Map<string, any>(),
+        method: number = APIHelper.METHOD_POST, withSign: Boolean = true): CurlCall {
         let url_final;
         if (url.substr(0, 4) == "http"){
             url_final = url;
         } else {
             url_final = APIHelper.API_HOST + "/" + (APIHelper.debug ? "v2" : "web") + "/" + url;
         }
+        console.info(url_final);
         const form_builder = new FormBodyBuilder();
         argArray.forEach(new class implements MapForEachCallback<string, any> {
             onEach(key: string, value: any, map: Map<string, any>) {
