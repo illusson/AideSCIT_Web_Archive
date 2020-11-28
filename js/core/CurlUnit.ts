@@ -19,7 +19,7 @@ export class CurlClientBuilder {
     }
 
     public build(): CurlClient {
-        return new CurlClient(this.follow_location, this.timeout);
+        return new CurlClient(this.follow_location, this.timeout * 1000);
     }
 }
 
@@ -111,7 +111,7 @@ export class FormBodyBuilder {
     private body: Map<string, any> = new Map<string, any>();
 
     public add(key: string, value: any = ""): FormBodyBuilder {
-        this.body[key] = value;
+        this.body.set(key, value);
         return this;
     }
 
@@ -129,7 +129,7 @@ export class FormBodyBuilder {
                     body_string = body_string + "&";
                 }
                 if (key != "access_token"){
-                    body_string = body_string + key + "=" + decodeURI(value);
+                    body_string = body_string + key + "=" + encodeURIComponent(value);
                 }
             }
         })
@@ -167,7 +167,6 @@ export class CurlCall {
             throw new CurlUrlNotSetException("The url of this client is not set.");
         } else {
             this.xmlRequest = new XMLHttpRequest();
-            this.xmlRequest.withCredentials = false;
             this.xmlRequest.timeout = client.getTimeout();
             this.url = request.getUrl();
             const this_CurlCall = this;

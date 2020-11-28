@@ -13,7 +13,7 @@ export class ExamHelper {
     }
 
     public getExamInfo(callback: ExamCallback){
-        const call = new APIHelper(this.access_token).getExamRequest();
+        const call = new APIHelper(this.access_token).getExamCall();
         call.enqueue(new class implements CurlCallback {
             onFailure(call: CurlCall, exception: CurlToolException, requestId: number) {
                 callback.onFailure(-111, "网络请求失败", exception)

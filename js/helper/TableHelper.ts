@@ -16,7 +16,7 @@ export class TableHelper {
 
     public getTable(school_year: string, semester: number, callback: TableCallback) {
         const this_TableHelper = this;
-        const call = new APIHelper(this.access_token).getTableRequest(school_year, semester);
+        const call = new APIHelper(this.access_token).getTableCall(school_year, semester);
         call.enqueue(new class implements CurlCallback {
             onFailure(call: CurlCall, exception: CurlToolException, requestId: number) {
                 callback.onFailure(-401, "网络请求失败", exception)

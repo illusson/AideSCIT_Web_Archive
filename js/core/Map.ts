@@ -1,10 +1,12 @@
+import {Log} from "./Log";
+
 export class Map<K, V> {
     private keys: K[] = [];
     private values: V[] = [];
 
     public set(key: K, value: V): Map<K, V> {
-        const index: number = -1;
-        if (this.has(key, index)){
+        let index: number = -1;
+        if (!this.has(key, index)){
             this.keys.push(key);
             this.values.push(value);
         } else {

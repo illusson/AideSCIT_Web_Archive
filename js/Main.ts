@@ -105,7 +105,7 @@ export function onDrawerListItemClick(index: number): void {
 }
 
 function getWeek(): void {
-    new APIHelper().getDayRequest().enqueue(new class implements CurlCallback {
+    new APIHelper().getDayCall().enqueue(new class implements CurlCallback {
         onFailure(call: CurlCall, exception: CurlToolException, requestId: number) {
             Controller.finish(false);
         }
@@ -144,7 +144,7 @@ function getWeek(): void {
 function getSentence(): void {
     let access: string[] = [];
     CookieUnit.get("access_token", access);
-    new APIHelper(access[0]).getSentenceRequest().enqueue(new class implements CurlCallback {
+    new APIHelper(access[0]).getSentenceCall().enqueue(new class implements CurlCallback {
         onFailure(call: CurlCall, exception: CurlToolException, requestId: number) {
             Controller.finish(false);
         }

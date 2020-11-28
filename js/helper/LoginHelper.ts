@@ -18,7 +18,7 @@ export class LoginHelper {
     }
 
     public springboard(access: string, callback: SpringboardCallback){
-        const call = new APIHelper(access).getSpringboardRequest()
+        const call = new APIHelper(access).getSpringboardCall()
         call.enqueue(new class implements CurlCallback {
             onFailure(call: CurlCall, exception: CurlToolException, requestId: number) {
                 callback.onFailure(-101, "网络请求失败", exception)
@@ -40,7 +40,7 @@ export class LoginHelper {
     }
 
     public refreshToken(access_token: string, refresh_token: string, callback: LoginCallback){
-        const call = new APIHelper(access_token, refresh_token).getRefreshTokenRequest();
+        const call = new APIHelper(access_token, refresh_token).getRefreshTokenCall();
         call.enqueue(new class implements CurlCallback {
             onFailure(call: CurlCall, exception: CurlToolException, requestId: number) {
                 callback.onFailure(-111, "网络请求失败", exception)

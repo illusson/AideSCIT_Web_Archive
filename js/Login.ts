@@ -5,6 +5,7 @@ import {CurlToolException} from "./core/CurlUnit";
 import {UserInfoCallback, UserInfoHelper} from "./helper/UserInfoHelper";
 import {SharedPreferences} from "./core/SharedPreferences";
 import {Controller} from "./Main";
+import {Log} from "./core/Log";
 
 export class Login extends HtmlCompatActivity implements UserInfoCallback {
     public onCreate() {
@@ -12,27 +13,31 @@ export class Login extends HtmlCompatActivity implements UserInfoCallback {
     }
 
     public onLoginAction(): void {
-        const username: HTMLElement = document.getElementById("login-username");
-        const password: HTMLElement = document.getElementById("login-password");
+        const username: HTMLInputElement = document.getElementById("login-username") as HTMLInputElement;
+        const password: HTMLInputElement = document.getElementById("login-password") as HTMLInputElement;
 
-        const error: HTMLElement = document.getElementById("login-error");
-        error.textContent = "test";
+        if (username.value == "" || password.value == ""){
+            // @ts-ignore
+            mdui.snackbar({
+                message: '账号或密码为空'
+            })
+        } else {
+            new LoginHelper().login(username.value, password.value, new class implements LoginCallback {
+                onFailure(code: number, message?: string, e?: CurlToolException) {
+                    // @ts-ignore
+                    mdui.snackbar({
+                        message: '登录失败，' + message + '(' + code.toString() + ')'
+                    })
+                }
 
-        new LoginHelper().login(username.nodeValue, password.nodeValue, new class implements LoginCallback {
-            onFailure(code: number, message?: string, e?: CurlToolException) {
-                // @ts-ignore
-                mdui.snackbar({
-                    message: '登录失败，' + message + '(' + code.toString() + ')'
-                })
-            }
+                onResult(access: string, refresh: string) {
+                    CookieUnit.set("access_token", access);
+                    CookieUnit.set("refresh_token", refresh);
 
-            onResult(access: string, refresh: string) {
-                CookieUnit.set("access_token", access);
-                CookieUnit.set("refresh_token", refresh);
-
-                new UserInfoHelper().getUserInfo(this);
-            }
-        })
+                    new UserInfoHelper().getUserInfo(this);
+                }
+            })
+        }
     }
 
     onFailure(code: number, message?: string, e?: CurlToolException) {
@@ -51,7 +56,7 @@ export class Login extends HtmlCompatActivity implements UserInfoCallback {
             .putNumber("grade", grade)
             .apply();
 
-        Controller.getActivity("Home").onCreate();
+        Controller.Home.onCreate();
         HtmlCompatActivity.setVisibility(document
             .getElementById("index-fragment"), true);
         HtmlCompatActivity.setVisibility(document

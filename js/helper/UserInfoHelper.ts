@@ -12,7 +12,7 @@ export class UserInfoHelper {
     }
 
     public getUserInfo(callback: UserInfoCallback){
-        const call = new APIHelper(this.access_token).getInfoRequest();
+        const call = new APIHelper(this.access_token).getInfoCall();
         call.enqueue(new class implements CurlCallback {
             onFailure(call: CurlCall, exception: CurlToolException, requestId: number) {
                 callback.onFailure(-301, "网络请求失败", exception)

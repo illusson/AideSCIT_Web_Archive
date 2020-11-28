@@ -14,7 +14,7 @@ export class AchievementHelper {
     }
 
     public get(school_year: string, semester: number, callback: AchievementCallback){
-        const call: CurlCall = new APIHelper(this.access_token).getAchievementRequest(school_year, semester);
+        const call: CurlCall = new APIHelper(this.access_token).getAchievementCall(school_year, semester);
         call.enqueue(new class implements CurlCallback {
             onResponse(call: CurlCall, response: CurlResponse, requestId: number) {
                 if (response.code() == 200){
