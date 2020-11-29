@@ -7,11 +7,7 @@ import {HtmlCompatActivity} from "./core/HtmlCompatActivity";
 export class Home extends HtmlCompatActivity implements TableCallback {
     private week: number;
 
-    public onCreate() {
-        document.getElementById("home-welcome").textContent = Home.getHeaderInfo();
-        document.getElementById("home-soup-content").textContent = Home.getSentenceString();
-        document.getElementById("home-soup-author").textContent = Home.getSentenceFrom();
-
+    protected onActivityCreate() {
         const sp = SharedPreferences.getInterface("user");
         this.week = sp.getNumber("week", 0)
 
@@ -21,6 +17,12 @@ export class Home extends HtmlCompatActivity implements TableCallback {
         } else {
             this.getTable();
         }
+    }
+
+    protected onViewSetup() {
+        document.getElementById("home-welcome").textContent = Home.getHeaderInfo();
+        document.getElementById("home-soup-content").textContent = Home.getSentenceString();
+        document.getElementById("home-soup-author").textContent = Home.getSentenceFrom();
     }
 
     private getTable(){

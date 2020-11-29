@@ -4,7 +4,9 @@ import {CurlToolException} from "./core/CurlUnit";
 import {ExamData} from "./data/ExamData";
 
 export class Exam extends HtmlCompatActivity implements ExamCallback {
-    public onCreate() {
+    protected readonly title: string = "考试座位安排";
+
+    protected onActivityCreate() {
         const exam = localStorage.getItem("cache.exam");
         if (exam != null){
             ExamHelper.parse(exam, this);
@@ -18,11 +20,7 @@ export class Exam extends HtmlCompatActivity implements ExamCallback {
     }
 
     onReadStart() {
-        const items: HTMLCollectionOf<Element> = document
-            .getElementsByClassName("exam-item");
-        for (let i: number = 0; i < items.length; i++){
-            items.item(i).remove();
-        }
+        document.getElementById("exam-content").textContent = "";
     }
 
     onFailure(code: number, message?: string, e?: CurlToolException) {

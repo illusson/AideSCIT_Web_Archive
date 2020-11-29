@@ -1,9 +1,9 @@
 import {HtmlCompatActivity} from "./core/HtmlCompatActivity";
 
 export class About extends HtmlCompatActivity {
-    public onCreate() {
+    protected readonly title: string = "关于";
 
-    }
+    protected onActivityCreate() { }
 
     public clearCache(): void {
         localStorage.removeItem("cache.table");

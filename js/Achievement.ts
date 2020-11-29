@@ -4,8 +4,11 @@ import {CurlToolException} from "./core/CurlUnit";
 import {FailedMarkData} from "./data/FailedMarkData";
 import {PassedMarkData} from "./data/PassedMarkData";
 import {SharedPreferences} from "./core/SharedPreferences";
+import {Log} from "./core/Log";
 
 export class Achievement extends HtmlCompatActivity implements AchievementCallback {
+    protected readonly title: string = "成绩单";
+
     private passed_count = 0;
     private failed_count = 0;
 
@@ -18,7 +21,15 @@ export class Achievement extends HtmlCompatActivity implements AchievementCallba
         position: 'bottom'
     });
 
-    public onCreate() {
+    protected onActivityCreate() {
+        const achievement = localStorage.getItem("cache.achievement");
+        if (achievement != null){
+            AchievementHelper.parse(achievement, this);
+        }
+        this.getAchievement();
+    }
+
+    protected onViewSetup() {
         const sp = SharedPreferences.getInterface("user");
         const school_year: string = sp.getString(
             "school_year_inquire",
@@ -29,6 +40,7 @@ export class Achievement extends HtmlCompatActivity implements AchievementCallba
             sp.getNumber("semester", 0)
         );
         const grade: number = sp.getNumber("grade", 2019);
+        Log.d("achievement", "school_year: " + school_year + ", semester: " + semester);
 
         const achieve_year: Element = document
             .getElementById("achieve-year") as HTMLSelectElement;
@@ -48,22 +60,16 @@ export class Achievement extends HtmlCompatActivity implements AchievementCallba
         const achieve_semester: Element = document
             .getElementById("achieve-semester") as HTMLSelectElement;
         achieve_semester.innerHTML = "";
-        for (let i: number = 0; i < 2; i++){
+        for (let i: number = 1; i < 3; i++){
             const achieve_semester_item: Element = document.createElement('option');
             achieve_semester_item.setAttribute("value", i.toString());
-            achieve_semester_item.textContent = (i + 1).toString();
+            achieve_semester_item.textContent = i.toString();
             if (i == semester){
                 achieve_semester_item.setAttribute("selected", null)
             }
             achieve_semester.appendChild(achieve_semester_item);
         }
         Achievement.achieve_semester_inst.handleUpdate();
-
-        const achievement = localStorage.getItem("cache.achievement");
-        if (achievement != null){
-            AchievementHelper.parse(achievement, this);
-        }
-        this.getAchievement();
     }
 
     public getAchievement(){

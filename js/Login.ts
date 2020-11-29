@@ -8,9 +8,7 @@ import {Controller} from "./Main";
 import {APIHelper} from "./helper/APIHelper";
 
 export class Login extends HtmlCompatActivity implements UserInfoCallback {
-    public onCreate() {
-
-    }
+    protected onActivityCreate() { }
 
     public onLoginAction(): void {
         const username: HTMLInputElement = document.getElementById("login-username") as HTMLInputElement;

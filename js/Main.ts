@@ -86,13 +86,25 @@ export class Controller {
             HtmlCompatActivity.setVisibility(page, true);
         }
     }
+
+    public static getActivity(id: number){
+        switch (id) {
+            case 0:
+                return Controller.Home;
+            case 1:
+                return Controller.Achievement;
+            case 2:
+                return Controller.Exam;
+            case 3:
+                return Controller.Mine;
+            default:
+                return Controller.About;
+        }
+    }
 }
 
 function onDrawerListItemClick(index: number): void {
-    const activity_list: any[] = [Controller.Home, Controller.Achievement, Controller.Exam];
-    if (index < 3){
-        activity_list[index].onCreate();
-    }
+    Controller.getActivity(index).onCreate();
 
     const active_list: HTMLCollectionOf<Element> = document.getElementsByClassName("mdui-list-item-active");
     for (let active_index = 0; active_index < active_list.length; active_index++){
