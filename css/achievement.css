@@ -14,6 +14,20 @@
     grid-column: 2;
 }
 
+#achieve-content-base {
+    height: calc(100% + 24px);
+    overflow-y: scroll;
+}
+
+#achieve-table-base{
+    position: absolute;
+    top: 120px;
+    left: 24px;
+    right: 24px;
+    bottom: 24px;
+    overflow: hidden;
+}
+
 .achieve-passed-column {
     grid-template-columns: 9fr 3fr 4fr 4fr 3fr;
 }

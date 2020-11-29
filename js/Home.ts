@@ -124,6 +124,7 @@ export class Home extends HtmlCompatActivity implements TableCallback {
     onReadStart() {
         const table_base = document.getElementById("schedule-content");
         table_base.innerHTML = "<p class=\"table-divider\" id=\"table-divider-noon\">中午</p>\n" +
-            "<p class=\"table-divider\" id=\"table-divider-evening\">晚上</p>";
+            "<p class=\"table-divider\" id=\"table-divider-evening\">晚上</p>\n" +
+            "<img src='img/placeholder.png' id=\"table-divider-placeholder\" alt=''>";
     }
 }

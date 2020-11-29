@@ -8,10 +8,10 @@
 }
 
 .schedule-row {
-    grid-template-rows: 110px 110px 25px 110px 110px 25px 110px;
+    grid-template-rows: 110px 110px 25px 110px 110px 25px 110px 1px;
 }
 
-.table-divider {
+.table-divider, #table-divider-placeholder {
     grid-column-start: 1;
     grid-column-end: 7;
     text-align: center;
@@ -27,8 +27,13 @@
     grid-row: 6;
 }
 
+#table-divider-placeholder {
+    grid-row: 8;
+}
+
 #schedule-content {
-    height: 600px;
+    height: 560px;
+    overflow-y: scroll;
 }
 
 .schedule-item-base {
