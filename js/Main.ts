@@ -76,7 +76,6 @@ export class Controller {
                     })
                     return;
                 }
-                onDrawerListItemClick(0);
                 page = document.getElementById("index-fragment");
             } else {
                 page = document.getElementById("login-fragment");

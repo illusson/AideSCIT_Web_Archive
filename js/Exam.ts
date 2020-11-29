@@ -15,7 +15,7 @@ export class Exam extends HtmlCompatActivity implements ExamCallback {
         }
     }
 
-    public getExam(){
+    public getExam() {
         new ExamHelper().getExamInfo(this);
     }
 
@@ -35,19 +35,24 @@ export class Exam extends HtmlCompatActivity implements ExamCallback {
 
         const exam_item: Element = document.createElement('div');
         exam_item.classList.add('table-content', 'exam-column', 'exam-item');
-        const content_item: Element = document.createElement('p');
-        content_item.classList.add('table-item-title');
+
+        let content_item: Element = document.createElement('p');
+        content_item.classList.add('table-item-first');
         content_item.textContent = data.name;
         exam_item.appendChild(content_item);
 
-        content_item.classList.remove('table-item-title');
+        content_item = document.createElement('p');
         content_item.classList.add('table-item-content');
         content_item.textContent = data.time;
         exam_item.appendChild(content_item);
 
+        content_item = document.createElement('p');
+        content_item.classList.add('table-item-content');
         content_item.textContent = data.location;
         exam_item.appendChild(content_item);
 
+        content_item = document.createElement('p');
+        content_item.classList.add('table-item-content');
         content_item.textContent = data.set;
         exam_item.appendChild(content_item);
 

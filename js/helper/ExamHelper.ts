@@ -36,8 +36,8 @@ export class ExamHelper {
     public static parse(response: string, callback: ExamCallback) {
         callback.onReadStart();
         const result: any = JSON.parse(response);
-        const examObject: any = result["exam"];
-        if (result["count"] > 0){
+        if (result["exam"]["count"] > 0){
+            const examObject: any = result["exam"]["data"];
             for (let index = 0; index < examObject.length; index++) {
                 const examData: any = examObject[index];
                 callback.onReadData(new ExamData(
