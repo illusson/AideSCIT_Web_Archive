@@ -5,7 +5,7 @@ export class Map<K, V> {
     private values: V[] = [];
 
     public set(key: K, value: V): Map<K, V> {
-        const index: number = this.has(key);
+        const index: number = this.indexOf(key);
         if (index == -1){
             this.keys.push(key);
             this.values.push(value);
@@ -15,7 +15,7 @@ export class Map<K, V> {
         return this;
     }
 
-    public has(key: K): number {
+    public indexOf(key: K): number {
         let index: number = -1;
         this.keys.forEach(function (v, i) {
             if (v == key){
@@ -26,7 +26,7 @@ export class Map<K, V> {
     }
 
     public get(key: K): V {
-        const index: number = this.has(key);
+        const index: number = this.indexOf(key);
         if (index == -1){
             return null;
         } else {
@@ -35,7 +35,7 @@ export class Map<K, V> {
     }
 
     public delete(key: K): boolean {
-        const index: number = this.has(key);
+        const index: number = this.indexOf(key);
         if (index == -1){
             return false;
         } else {

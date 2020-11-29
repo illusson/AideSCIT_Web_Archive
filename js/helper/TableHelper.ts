@@ -2,7 +2,6 @@ import {CurlCall, CurlCallback, CurlResponse, CurlToolException} from "../core/C
 import {TableData} from "../data/TableData";
 import {APIHelper} from "./APIHelper";
 import {CookieUnit} from "../core/CookieUnit";
-import {Log} from "../core/Log";
 
 export class TableHelper {
     private readonly access_token: string;
@@ -46,9 +45,9 @@ export class TableHelper {
             const dayObject: any = tableObject[dayIndex];
             for (let classIndex = 0; classIndex < dayObject.length; classIndex++){
                 const classObject: any = dayObject[classIndex];
-                const classCount: number = classObject["count"];
+                const classCount: number = parseInt(classObject["count"]);
                 if (classCount > 0){
-                    const indexArray: any = classObject["data"];
+                    const indexArray: any[] = classObject["data"];
                     for (let index = 0; index < classCount; index++){
                         const indexObject: any = indexArray[index];
                         const rangeObject: number[] = indexObject["range"];

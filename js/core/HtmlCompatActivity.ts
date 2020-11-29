@@ -9,12 +9,14 @@ export abstract class HtmlCompatActivity {
     }
 
     static setVisibility(element: Element, visible: boolean){
-        if (visible){
-            if (element.hasAttribute("style")){
-                element.removeAttribute("style");
+        if (element != null){
+            if (visible){
+                if (element.hasAttribute("style")){
+                    element.removeAttribute("style");
+                }
+            } else {
+                element.setAttribute("style", "display: none;");
             }
-        } else {
-            element.setAttribute("style", "display: none;");
         }
     }
 }

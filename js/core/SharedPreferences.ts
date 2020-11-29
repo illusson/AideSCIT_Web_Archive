@@ -1,5 +1,4 @@
 import {Map, MapForEachCallback} from "./Map";
-import {Log} from "./Log";
 
 export class SharedPreferences {
     private readonly name: string;
@@ -9,33 +8,29 @@ export class SharedPreferences {
 
     private constructor(name: string) {
         this.name = "sp." + name;
-        const content_strings: string = localStorage.getItem(name);
+        const content_strings: string = localStorage.getItem(this.name);
         if (content_strings != null && content_strings != ""){
-            const parser: Element = new DOMParser()
-                .parseFromString(content_strings, "text/xml")
-                .getElementsByTagName("map")[0];
-            const strings = parser.getElementsByTagName("string");
-            for (let i = 0; i < strings.length; i++) {
-                const string = strings.item(i);
-                Log.d(string.getAttribute("name"), string.textContent);
+            const parser: Document = new DOMParser()
+                .parseFromString(content_strings, "text/xml");
+            const string_tags = parser.getElementsByTagName("string");
+            for (let i = 0; i < string_tags.length; i++) {
+                const string = string_tags.item(i);
                 this.strings.set(
                     string.getAttribute("name"),
                     string.textContent
                 )
             }
-            const numbers = parser.getElementsByTagName("number");
-            for (let i = 0; i < numbers.length; i++) {
-                const number = numbers.item(i);
-                Log.d(number.getAttribute("name"), number.textContent);
+            const number_tags = parser.getElementsByTagName("number");
+            for (let i = 0; i < number_tags.length; i++) {
+                const number = number_tags.item(i);
                 this.numbers.set(
                     number.getAttribute("name"),
                     Number(number.getAttribute("value"))
                 )
             }
-            const booleans = parser.getElementsByTagName("boolean");
-            for (let i = 0; i < booleans.length; i++) {
-                const boolean = booleans.item(i);
-                Log.d(boolean.getAttribute("name"), boolean.textContent);
+            const boolean_tags = parser.getElementsByTagName("boolean");
+            for (let i = 0; i < boolean_tags.length; i++) {
+                const boolean = boolean_tags.item(i);
                 this.booleans.set(
                     boolean.getAttribute("name"),
                     Boolean(boolean.getAttribute("value"))
@@ -49,7 +44,7 @@ export class SharedPreferences {
     }
 
     public getString(key: string, default_value: string): string {
-        if (this.strings.has(key) != -1){
+        if (this.strings.indexOf(key) != -1){
             return this.strings.get(key);
         } else {
             return default_value;
@@ -57,7 +52,7 @@ export class SharedPreferences {
     }
 
     public getNumber(key: string, default_value: number): number {
-        if (this.numbers.has(key) != -1){
+        if (this.numbers.indexOf(key) != -1){
             return this.numbers.get(key);
         } else {
             return default_value;
@@ -65,7 +60,7 @@ export class SharedPreferences {
     }
 
     public getBoolean(key: string, default_value: boolean): boolean {
-        if (this.booleans.has(key) != -1){
+        if (this.booleans.indexOf(key) != -1){
             return this.booleans.get(key);
         } else {
             return default_value;
@@ -77,13 +72,19 @@ export class SharedPreferences {
             this.name, this.strings, this.numbers, this.booleans
         );
     }
+
+    public toString(): string {
+        return SharedPreferencesBuilder.toString(
+            this.strings, this.numbers, this.booleans
+        )
+    }
 }
 
 export class SharedPreferencesEditor {
     private readonly name: string;
-    private strings: Map<string, string>;
-    private numbers: Map<string, number>;
-    private booleans: Map<string, boolean>;
+    private readonly strings: Map<string, string>;
+    private readonly numbers: Map<string, number>;
+    private readonly booleans: Map<string, boolean>;
 
     constructor(name: string, strings: Map<string, string>, numbers: Map<string, number>, booleans: Map<string, boolean>) {
         this.name = name;
@@ -109,10 +110,22 @@ export class SharedPreferencesEditor {
     }
 
     public apply(){
+        localStorage.setItem(this.name, this.toString());
+    }
+
+    public toString(): string {
+        return SharedPreferencesBuilder.toString(
+            this.strings, this.numbers, this.booleans
+        )
+    }
+}
+
+class SharedPreferencesBuilder {
+    public static toString(strings: Map<string, string>, numbers: Map<string, number>, booleans: Map<string, boolean>){
         const xml_object: XMLDocument = document.implementation.createDocument(
             "", "map", null
         );
-        this.strings.forEach(new class implements MapForEachCallback<string, string> {
+        strings.forEach(new class implements MapForEachCallback<string, string> {
             onEach(key: string, value: string, map: Map<string, string>) {
                 const string_item = xml_object.createElement("string");
                 string_item.setAttribute("name", key);
@@ -121,7 +134,7 @@ export class SharedPreferencesEditor {
                     .appendChild(string_item);
             }
         })
-        this.numbers.forEach(new class implements MapForEachCallback<string, number> {
+        numbers.forEach(new class implements MapForEachCallback<string, number> {
             onEach(key: string, value: number, map: Map<string, number>) {
                 const number_item = xml_object.createElement("number");
                 number_item.setAttribute("name", key);
@@ -130,7 +143,7 @@ export class SharedPreferencesEditor {
                     .appendChild(number_item);
             }
         })
-        this.booleans.forEach(new class implements MapForEachCallback<string, boolean> {
+        booleans.forEach(new class implements MapForEachCallback<string, boolean> {
             onEach(key: string, value: boolean, map: Map<string, boolean>) {
                 const boolean_item = xml_object.createElement("boolean");
                 boolean_item.setAttribute("name", key);
@@ -139,7 +152,6 @@ export class SharedPreferencesEditor {
                     .appendChild(boolean_item);
             }
         })
-        localStorage.setItem(this.name,
-            new XMLSerializer().serializeToString(xml_object));
+        return new XMLSerializer().serializeToString(xml_object);
     }
 }

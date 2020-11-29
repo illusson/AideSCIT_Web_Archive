@@ -56,7 +56,7 @@ export class Home extends HtmlCompatActivity implements TableCallback {
 
     public static getSentenceString(){
         return SharedPreferences.getInterface("user")
-            .getString("string", "");
+            .getString("sentence", "");
     }
 
     public static getSentenceFrom(){
@@ -73,24 +73,35 @@ export class Home extends HtmlCompatActivity implements TableCallback {
 
     onRead(dayIndex: number, classIndex: number, data?: TableData) {
         if (data != null){
+            /*
+                <div id="schedule-item-base" style="grid-column: 1; grid-row: 1;">
+                    <div class="schedule-item mdui-card mdui-ripple">
+                        <div class="mdui-cars-content table-item-title">工程力学Ⅱ</div>
+                        <div class="mdui-cars-content table-item-content">钟灵楼(6号楼)209</div>
+                        <div class="mdui-cars-content table-item-content">何运琪</div>
+                    </div>
+                </div>
+             */
             const table: Element = document.getElementById("schedule-content");
 
             const schedule_item: Element = document.createElement('div');
             schedule_item.setAttribute(
                 "style",
-                "grid-column: "+dayIndex+"; grid-row: "+classIndex+";"
+                "grid-column: " + dayIndex + "; grid-row: " + classIndex + ";"
             )
             schedule_item.classList.add('schedule-item', 'mdui-card', 'mdui-ripple');
-            const table_item: Element = document.createElement('div');
+            let table_item: Element = document.createElement('div');
             table_item.classList.add('mdui-cars-content', 'table-item-title');
             table_item.textContent = data.name;
             schedule_item.appendChild(table_item);
 
-            table_item.classList.remove('table-item-title');
-            table_item.classList.add('table-item-content');
+            table_item = document.createElement('div');
+            table_item.classList.add('mdui-cars-content', 'table-item-content');
             table_item.textContent = data.room;
             schedule_item.appendChild(table_item);
 
+            table_item = document.createElement('div');
+            table_item.classList.add('mdui-cars-content', 'table-item-content');
             table_item.textContent = data.teacher;
             schedule_item.appendChild(table_item);
 

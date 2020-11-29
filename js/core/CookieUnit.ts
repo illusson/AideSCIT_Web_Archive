@@ -20,7 +20,7 @@ export class CookieUnit {
 
     public static get(key: string): string {
         const cookies: Map<string, string> = CookieUnit.getAll();
-        if (cookies.has(key) != -1){
+        if (cookies.indexOf(key) != -1){
             return cookies.get(key);
         } else {
             return null;

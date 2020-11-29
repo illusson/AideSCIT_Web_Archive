@@ -3,12 +3,13 @@ import {LoginCallback, LoginHelper, SpringboardCallback} from "./helper/LoginHel
 import {CurlCall, CurlCallback, CurlResponse, CurlToolException} from "./core/CurlUnit";
 import {SharedPreferences} from "./core/SharedPreferences";
 import {APIHelper} from "./helper/APIHelper";
-import {Map} from "./core/Map";
 import {HtmlCompatActivity} from "./core/HtmlCompatActivity";
 import {Home} from "./Home";
 import {Exam} from "./Exam";
 import {Login} from "./Login";
 import {Achievement} from "./Achievement";
+import {Mine} from "./Mine";
+import {About} from "./About";
 import {Log} from "./core/Log";
 
 export class Controller {
@@ -21,6 +22,8 @@ export class Controller {
     public static readonly Home: Home = new Home();
     public static readonly Achievement: Achievement = new Achievement();
     public static readonly Exam: Exam = new Exam();
+    public static readonly Mine: Mine = new Mine();
+    public static readonly About: About = new About();
 
     public static setup() {
         document.getElementById("login-button").onclick = function() {
@@ -80,7 +83,7 @@ export class Controller {
     }
 }
 
-export function onDrawerListItemClick(index: number): void {
+function onDrawerListItemClick(index: number): void {
     const activity_list: any[] = [Controller.Home, Controller.Achievement, Controller.Exam];
     if (index < 3){
         activity_list[index].onCreate();
@@ -109,15 +112,17 @@ export function onDrawerListItemClick(index: number): void {
 function getWeek(): void {
     new APIHelper().getDayCall().enqueue(new class implements CurlCallback {
         onFailure(call: CurlCall, exception: CurlToolException, requestId: number) {
+            Log.e("getWeek.onFailure()", exception.message);
             Controller.finish(false);
         }
 
         onResponse(call: CurlCall, response: CurlResponse, requestId: number) {
             if (response.code() == 200){
                 const result = JSON.parse(response.body());
-                if (result["code"] == 200){
+                if (result["code"] == 0){
+                    let day_count: number = 0;
                     if (result['direct'] == '+'){
-                        let day_count: number = result['day_count'];
+                        day_count = result['day_count'];
                         if (day_count % 7 == 0){
                             day_count = day_count / 7;
                         } else {
@@ -128,17 +133,17 @@ function getWeek(): void {
                         } else if (day_count == 18 && new Date().getDay() == 0){
                             day_count = 0;
                         }
-                        Log.d("day_count", day_count.toString());
-                        SharedPreferences.getInterface('user').edit()
-                            .putNumber("week", day_count)
-                            .putNumber("semester", result['semester'])
-                            .putNumber("school_year", result['school_year'])
-                            .apply();
                     }
+                    SharedPreferences.getInterface('user').edit()
+                        .putNumber("week", day_count)
+                        .putNumber("semester", result['semester'])
+                        .putString("school_year", result['school_year'])
+                        .apply();
                     Controller.finish(true);
                     return;
                 }
             }
+            Log.e("getWeek.onResponse()", response.code().toString());
             Controller.finish(false);
         }
     })
@@ -148,6 +153,7 @@ function getSentence(): void {
     const access: string = CookieUnit.get("access_token");
     new APIHelper(access).getSentenceCall().enqueue(new class implements CurlCallback {
         onFailure(call: CurlCall, exception: CurlToolException, requestId: number) {
+            Log.e("getSentence.onFailure()", exception.message);
             Controller.finish(false);
         }
 
@@ -158,10 +164,10 @@ function getSentence(): void {
                     .putString("sentence", result["string"])
                     .putString("from", result["from"])
                     .apply();
-                Controller.finish(true);
             } catch (e){
-                Controller.finish(false);
+                Log.e("getSentence.onResponse()", e.message);
             }
+            Controller.finish(true);
         }
     })
 }
@@ -196,19 +202,19 @@ function checkLogin(): void {
     Controller.finish(true);
 }
 
-export function onLoginAction(){
+function onLoginAction(){
     Controller.Login.onLoginAction();
 }
 
-export function onAchieveInquire(){
+function onAchieveInquire(){
     Controller.Achievement.getAchievement();
 }
 
-export function onExamInquire(){
+function onExamInquire(){
     Controller.Exam.getExam();
 }
 
-export function logout(): void {
+function logout(): void {
     CookieUnit.remove("access_token");
     CookieUnit.remove("refresh_token");
 
@@ -218,13 +224,13 @@ export function logout(): void {
         .getElementById("login-fragment"), true);
 }
 
-export function clearCache(): void {
+function clearCache(): void {
     localStorage.removeItem("cache.table");
     localStorage.removeItem("cache.achievement");
     localStorage.removeItem("cache.exam");
 }
 
-export function springboard(): void {
+function springboard(): void {
     let access: string = CookieUnit.get("access_token");
     if (access != null){
         new LoginHelper().springboard(access[0], new class implements SpringboardCallback {

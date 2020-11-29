@@ -62,7 +62,7 @@ export class CurlRequestBuilder {
     }
 
     public addCookie(key: string, value: any): CurlRequestBuilder {
-        if (this.headers.has("Cookie")){
+        if (this.headers.indexOf("Cookie")){
             this.headers.set("Cookie", "");
         }
         this.headers.set("Cookie", this.headers.get("Cookie")

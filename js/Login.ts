@@ -5,6 +5,7 @@ import {CurlToolException} from "./core/CurlUnit";
 import {UserInfoCallback, UserInfoHelper} from "./helper/UserInfoHelper";
 import {SharedPreferences} from "./core/SharedPreferences";
 import {Controller} from "./Main";
+import {APIHelper} from "./helper/APIHelper";
 
 export class Login extends HtmlCompatActivity implements UserInfoCallback {
     public onCreate() {
@@ -43,7 +44,7 @@ export class Login extends HtmlCompatActivity implements UserInfoCallback {
         const date_1 = new Date();
         date_1.setDate(date_1.getDate() + 30);
         SharedPreferences.getInterface("user").edit()
-            .putNumber("token_expired", date_1.getMilliseconds() + 2592000)
+            .putNumber("token_expired", APIHelper.getTS() + 2592000)
             .apply();
 
         CookieUnit.set("access_token", access, date_1, "/");
