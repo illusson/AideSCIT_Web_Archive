@@ -1,5 +1,5 @@
 import {CookieUnit} from "./core/CookieUnit";
-import {LoginCallback, LoginHelper, SpringboardCallback} from "./helper/LoginHelper";
+import {LoginCallback, LoginHelper} from "./helper/LoginHelper";
 import {CurlCall, CurlCallback, CurlResponse, CurlToolException} from "./core/CurlUnit";
 import {SharedPreferences} from "./core/SharedPreferences";
 import {APIHelper} from "./helper/APIHelper";
@@ -26,31 +26,36 @@ export class Controller {
     public static readonly About: About = new About();
 
     public static setup() {
-        document.getElementById("login-button").onclick = function() {
-            onLoginAction();
-        }
-        document.getElementById("clear-cache").onclick = function() {
-            clearCache();
-        }
-        document.getElementById("mine-logout").onclick = function() {
-            logout();
-        }
-        document.getElementById("login-jump-button").onclick = function() {
-            window.open('http://218.6.163.95:18080/zfca?yhlx=student&login=0122579031373493708&url=xs_main.aspx');
-        }
-        document.getElementById("jump-button").onclick = function() {
-            springboard();
-        }
-        document.getElementById("achieve-inquire").onclick = function() {
-            onAchieveInquire();
-        }
-        const pages: HTMLCollectionOf<Element> = document
-            .getElementsByClassName("drawer-list");
-        for (let i = 0; i < pages.length; i++) {
-            pages.item(i).addEventListener("click", function () {
-                onDrawerListItemClick(i);
-            })
-        }
+        // const ua = navigator.userAgent;
+        // if (ua.indexOf("yiban_android")){
+        //     window.location.href = "https://tool.eclass.sgpublic.xyz/"
+        // } else {
+            document.getElementById("login-button").onclick = function() {
+                Controller.Login.onLoginAction();
+            }
+            document.getElementById("clear-cache").onclick = function() {
+                Controller.About.clearCache();
+            }
+            document.getElementById("mine-logout").onclick = function() {
+                Controller.Mine.logout();
+            }
+            document.getElementById("login-jump-button").onclick = function() {
+                window.open('http://218.6.163.95:18080/zfca?yhlx=student&login=0122579031373493708&url=xs_main.aspx');
+            }
+            document.getElementById("jump-button").onclick = function() {
+                Controller.Mine.springboard();
+            }
+            document.getElementById("achieve-inquire").onclick = function() {
+                Controller.Achievement.getAchievement();
+            }
+            const pages: HTMLCollectionOf<Element> = document
+                .getElementsByClassName("drawer-list");
+            for (let i = 0; i < pages.length; i++) {
+                pages.item(i).addEventListener("click", function () {
+                    onDrawerListItemClick(i);
+                })
+            }
+        // }
     }
 
     public static finish(value: boolean): void {
@@ -200,51 +205,6 @@ function checkLogin(): void {
         Controller.is_login = false;
     }
     Controller.finish(true);
-}
-
-function onLoginAction(){
-    Controller.Login.onLoginAction();
-}
-
-function onAchieveInquire(){
-    Controller.Achievement.getAchievement();
-}
-
-function onExamInquire(){
-    Controller.Exam.getExam();
-}
-
-function logout(): void {
-    CookieUnit.remove("access_token");
-    CookieUnit.remove("refresh_token");
-
-    HtmlCompatActivity.setVisibility(document
-        .getElementById("index-fragment"), false);
-    HtmlCompatActivity.setVisibility(document
-        .getElementById("login-fragment"), true);
-}
-
-function clearCache(): void {
-    localStorage.removeItem("cache.table");
-    localStorage.removeItem("cache.achievement");
-    localStorage.removeItem("cache.exam");
-}
-
-function springboard(): void {
-    let access: string = CookieUnit.get("access_token");
-    if (access != null){
-        new LoginHelper().springboard(access[0], new class implements SpringboardCallback {
-            onFailure(code: number, message?: string, e?: CurlToolException) {
-                window.open('http://218.6.163.95:18080/zfca?yhlx=student&login=0122579031373493708&url=xs_main.aspx');
-            }
-
-            onResult(location: string) {
-                window.open(location);
-            }
-        })
-    } else {
-        window.open('http://218.6.163.95:18080/zfca?yhlx=student&login=0122579031373493708&url=xs_main.aspx');
-    }
 }
 
 window.onload = function() {

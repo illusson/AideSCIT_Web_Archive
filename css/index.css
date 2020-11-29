@@ -40,6 +40,9 @@
 
 .table-base p {
     margin: auto 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .table-header {

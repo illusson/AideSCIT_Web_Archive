@@ -47,8 +47,13 @@
 }
 
 .table-item-title {
+    display: -webkit-box;
     font-size: 12px;
     font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
 }
 
 .table-item-content {

@@ -21,21 +21,27 @@ export class Achievement extends HtmlCompatActivity implements AchievementCallba
         );
         const grade: number = sp.getNumber("grade", 2019);
 
-        const achieve_year: Element = document.getElementById("achieve-year");
-        const achieve_year_item: Element = document.createElement('option');
+        const achieve_year: Element = document
+            .getElementById("achieve-year") as HTMLSelectElement;
+        achieve_year.innerHTML = "";
         for (let i: number = 0; i < 4; i++){
-            const value = (grade + i).toString() + "-" + (grade + i + 1).toString();
+            const achieve_year_item: Element = document.createElement('option')
+            const value: string = (grade + i).toString() + "-" + (grade + i + 1).toString();
             achieve_year_item.setAttribute("value", value);
             achieve_year_item.textContent = value;
             if (value == school_year){
-                achieve_year_item.setAttribute("selected", null)
+                achieve_year_item.setAttribute("selected", "selected")
             }
             achieve_year.appendChild(achieve_year_item);
         }
+        //@ts-ignore
+        new mdui.Select(achieve_year).handleUpdate();
 
-        const achieve_semester: Element = document.getElementById("achieve-semester");
-        const achieve_semester_item: Element = document.createElement('option');
+        const achieve_semester: Element = document
+            .getElementById("achieve-semester") as HTMLSelectElement;
+        achieve_semester.innerHTML = "";
         for (let i: number = 0; i < 2; i++){
+            const achieve_semester_item: Element = document.createElement('option');
             achieve_semester_item.setAttribute("value", i.toString());
             achieve_semester_item.textContent = (i + 1).toString();
             if (i == semester){
@@ -43,23 +49,26 @@ export class Achievement extends HtmlCompatActivity implements AchievementCallba
             }
             achieve_semester.appendChild(achieve_semester_item);
         }
+        //@ts-ignore
+        new mdui.Select(achieve_semester).handleUpdate();
 
         const achievement = localStorage.getItem("cache.achievement");
         if (achievement != null){
             AchievementHelper.parse(achievement, this);
-        } else {
-            this.getAchievement();
         }
+        this.getAchievement();
     }
 
     public getAchievement(){
-        const school_year_inquire: string = document.getElementById("achieve-year").nodeValue;
-        const semester_inquire: number = parseInt(document.getElementById("achieve-semester").nodeValue);
+        const school_year_inquire: HTMLSelectElement = document
+            .getElementById("achieve-year") as HTMLSelectElement;
+        const semester_inquire: HTMLSelectElement = document
+            .getElementById("achieve-semester") as HTMLSelectElement;
         SharedPreferences.getInterface("user").edit()
-            .putString("school_year_inquire", school_year_inquire)
-            .putNumber("semester_inquire", semester_inquire)
+            .putString("school_year_inquire", school_year_inquire.value)
+            .putNumber("semester_inquire", parseInt(semester_inquire.value))
             .apply();
-        new AchievementHelper().get(school_year_inquire, semester_inquire, this);
+        new AchievementHelper().get(school_year_inquire.value, parseInt(semester_inquire.value), this);
     }
 
     onFailure(code: number, message?: string, e?: CurlToolException) {
@@ -74,12 +83,13 @@ export class Achievement extends HtmlCompatActivity implements AchievementCallba
 
         const failed_item: Element = document.createElement('div');
         failed_item.classList.add('table-content', 'achieve-passed-column');
-        const content_item: Element = document.createElement('p');
-        content_item.classList.add('table-item-title');
+
+        let content_item: Element = document.createElement('p');
+        content_item.classList.add('table-item-first');
         content_item.textContent = data.name;
         failed_item.appendChild(content_item);
 
-        content_item.classList.remove('table-item-title');
+        content_item = document.createElement('p');
         content_item.classList.add('table-item-content');
         content_item.textContent = data.mark;
         failed_item.appendChild(content_item);
@@ -99,22 +109,29 @@ export class Achievement extends HtmlCompatActivity implements AchievementCallba
 
         const passed_item: Element = document.createElement('div');
         passed_item.classList.add('table-content', 'achieve-passed-column', 'achieve-item');
-        const content_item: Element = document.createElement('p');
-        content_item.classList.add('table-item-title');
+
+        let content_item: Element = document.createElement('p');
+        content_item.classList.add('table-item-first');
         content_item.textContent = data.name;
         passed_item.appendChild(content_item);
 
-        content_item.classList.remove('table-item-title');
+        content_item = document.createElement('p');
         content_item.classList.add('table-item-content');
         content_item.textContent = data.mark;
         passed_item.appendChild(content_item);
 
+        content_item = document.createElement('p');
+        content_item.classList.add('table-item-content');
         content_item.textContent = data.retake;
         passed_item.appendChild(content_item);
 
+        content_item = document.createElement('p');
+        content_item.classList.add('table-item-content');
         content_item.textContent = data.rebuild;
         passed_item.appendChild(content_item);
 
+        content_item = document.createElement('p');
+        content_item.classList.add('table-item-content');
         content_item.textContent = data.credit;
         passed_item.appendChild(content_item);
 
@@ -127,10 +144,7 @@ export class Achievement extends HtmlCompatActivity implements AchievementCallba
         this.passed_count = 0;
         this.failed_count = 0;
 
-        const items_passed: HTMLCollectionOf<Element> = document
-            .getElementsByClassName("achieve-item");
-        for (let i: number = 0; i < items_passed.length; i++){
-            items_passed.item(i).remove();
-        }
+        document.getElementById("achieve-passed-content").innerHTML = "";
+        document.getElementById("achieve-failed-content").innerHTML = "";
     }
 }

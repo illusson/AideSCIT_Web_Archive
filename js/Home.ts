@@ -74,7 +74,7 @@ export class Home extends HtmlCompatActivity implements TableCallback {
     onRead(dayIndex: number, classIndex: number, data?: TableData) {
         if (data != null){
             /*
-                <div id="schedule-item-base" style="grid-column: 1; grid-row: 1;">
+                <div class="schedule-item-base" style="grid-column: 1; grid-row: 1;">
                     <div class="schedule-item mdui-card mdui-ripple">
                         <div class="mdui-cars-content table-item-title">工程力学Ⅱ</div>
                         <div class="mdui-cars-content table-item-content">钟灵楼(6号楼)209</div>
@@ -84,12 +84,16 @@ export class Home extends HtmlCompatActivity implements TableCallback {
              */
             const table: Element = document.getElementById("schedule-content");
 
-            const schedule_item: Element = document.createElement('div');
-            schedule_item.setAttribute(
+            const schedule_item_base = document.createElement('div');
+            schedule_item_base.classList.add('schedule-item-base');
+            schedule_item_base.setAttribute(
                 "style",
                 "grid-column: " + dayIndex + "; grid-row: " + classIndex + ";"
             )
+
+            const schedule_item: Element = document.createElement('div');
             schedule_item.classList.add('schedule-item', 'mdui-card', 'mdui-ripple');
+
             let table_item: Element = document.createElement('div');
             table_item.classList.add('mdui-cars-content', 'table-item-title');
             table_item.textContent = data.name;
@@ -105,7 +109,8 @@ export class Home extends HtmlCompatActivity implements TableCallback {
             table_item.textContent = data.teacher;
             schedule_item.appendChild(table_item);
 
-            table.appendChild(schedule_item);
+            schedule_item_base.appendChild(schedule_item);
+            table.appendChild(schedule_item_base);
         }
     }
 
@@ -115,10 +120,8 @@ export class Home extends HtmlCompatActivity implements TableCallback {
     }
 
     onReadStart() {
-        const items: HTMLCollectionOf<Element> = document
-            .getElementsByClassName("schedule-item-base");
-        for (let i: number = 0; i < items.length; i++){
-            items.item(i).remove();
-        }
+        const table_base = document.getElementById("schedule-content");
+        table_base.innerHTML = "<p class=\"table-divider\" id=\"table-divider-noon\">中午</p>\n" +
+            "<p class=\"table-divider\" id=\"table-divider-evening\">晚上</p>";
     }
 }
