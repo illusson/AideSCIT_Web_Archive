@@ -1,3 +1,13 @@
 .exam-column {
     grid-template-columns: 3fr 4fr 3fr 2fr;
 }
+
+#exam-content p {
+    text-align: center;
+    height: 32px;
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    white-space: normal;
+}

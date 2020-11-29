@@ -15,17 +15,17 @@
 }
 
 #achieve-content-base {
-    height: calc(100% + 24px);
-    overflow-y: scroll;
+    height: auto;
+    overflow: hidden;
 }
 
-#achieve-table-base{
+#achieve-table-base {
     position: absolute;
     top: 120px;
     left: 24px;
     right: 24px;
-    bottom: 24px;
-    overflow: hidden;
+    bottom: 8px;
+    overflow-y: scroll;
 }
 
 .achieve-passed-column {

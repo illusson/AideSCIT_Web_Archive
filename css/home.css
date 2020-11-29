@@ -1,3 +1,11 @@
+#home-soup-content {
+    height: 32px;
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
 #home-soup-author {
     margin-top: 0;
     float: right;
@@ -32,7 +40,16 @@
 }
 
 #schedule-content {
-    height: 560px;
+    height: auto;
+    grid-row-gap: 0;
+}
+
+#schedule-content-base {
+    position: absolute;
+    top: 200px;
+    bottom: 8px;
+    left: 24px;
+    right: 19px;
     overflow-y: scroll;
 }
 
@@ -43,22 +60,22 @@
 
 .schedule-item {
     height: 106px;
-    padding: 1px;
+    padding: 2px 1px;
     margin: 2px;
 }
 
 .table-item-title, .table-item-content {
-    margin: 4px;
+    margin: 2px 4px;
 }
 
 .table-item-title {
     display: -webkit-box;
-    font-size: 12px;
-    font-weight: bold;
-    overflow: hidden;
     text-overflow: ellipsis;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
+    font-size: 12px;
+    font-weight: bold;
+    overflow: hidden;
 }
 
 .table-item-content {

@@ -27,7 +27,7 @@ export class Controller {
 
     public static setup() {
         const ua = navigator.userAgent;
-        if (ua.indexOf("yiban_android") && !APIHelper.debug){
+        if (ua.indexOf("yiban_android") == -1 && !APIHelper.debug){
             window.location.href = "https://tool.eclass.sgpublic.xyz/"
         } else {
             document.getElementById("login-button").onclick = function() {
