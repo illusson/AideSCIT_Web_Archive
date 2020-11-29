@@ -7,6 +7,7 @@ export abstract class HtmlCompatActivity {
     public onCreate(){
         this.setPageTitle();
         this.onViewSetup();
+        this.onActivityCreate();
     }
 
     protected abstract onActivityCreate();

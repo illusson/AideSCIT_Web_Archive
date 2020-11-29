@@ -26,10 +26,10 @@ export class Controller {
     public static readonly About: About = new About();
 
     public static setup() {
-        // const ua = navigator.userAgent;
-        // if (ua.indexOf("yiban_android")){
-        //     window.location.href = "https://tool.eclass.sgpublic.xyz/"
-        // } else {
+        const ua = navigator.userAgent;
+        if (ua.indexOf("yiban_android") && !APIHelper.debug){
+            window.location.href = "https://tool.eclass.sgpublic.xyz/"
+        } else {
             document.getElementById("login-button").onclick = function() {
                 Controller.Login.onLoginAction();
             }
@@ -55,7 +55,7 @@ export class Controller {
                     onDrawerListItemClick(i);
                 })
             }
-        // }
+        }
     }
 
     public static finish(value: boolean): void {
