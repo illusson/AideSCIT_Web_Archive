@@ -48,6 +48,12 @@ export class Controller {
             document.getElementById("achieve-inquire").onclick = function() {
                 Controller.Achievement.getAchievement();
             }
+            document.getElementById("schedule-refresh").onclick = function() {
+                Controller.Home.getTable();
+            }
+            document.getElementById("exam-refresh").onclick = function() {
+                Controller.Exam.getExam();
+            }
             const pages: HTMLCollectionOf<Element> = document
                 .getElementsByClassName("drawer-list");
             for (let i = 0; i < pages.length; i++) {
@@ -169,8 +175,7 @@ function getSentence(): void {
     const access: string = CookieUnit.get("access_token");
     new APIHelper(access).getSentenceCall().enqueue(new class implements CurlCallback {
         onFailure(call: CurlCall, exception: CurlToolException, requestId: number) {
-            Log.e("getSentence.onFailure()", exception.message);
-            Controller.finish(false);
+            Controller.finish(true);
         }
 
         onResponse(call: CurlCall, response: CurlResponse, requestId: number) {
@@ -180,12 +185,11 @@ function getSentence(): void {
                     .putString("sentence", result["string"])
                     .putString("from", result["from"])
                     .apply();
-            } catch (e){
-                Log.e("getSentence.onResponse()", e.message);
-            }
+            } catch (e){ }
             Controller.finish(true);
         }
     })
+    // Controller.finish(true);
 }
 
 function checkLogin(): void {

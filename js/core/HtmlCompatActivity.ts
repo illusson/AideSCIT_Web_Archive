@@ -1,7 +1,5 @@
-import {Map} from "./Map";
-import {SharedPreferences} from "./SharedPreferences";
-
 export abstract class HtmlCompatActivity {
+    protected loadState: boolean = false;
     protected readonly title: string = "";
 
     public onCreate(){
@@ -34,5 +32,14 @@ export abstract class HtmlCompatActivity {
 
     protected setPageTitle(){
         document.getElementById("header-title").textContent = this.title;
+    }
+
+    protected setOnLoadState(state: boolean){
+        if (this.loadState != state){
+            HtmlCompatActivity.setVisibility(document.getElementById(
+                "index-progress"
+            ), state);
+        }
+        this.loadState = state;
     }
 }

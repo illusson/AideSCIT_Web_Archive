@@ -11,30 +11,33 @@ export class Login extends HtmlCompatActivity implements UserInfoCallback {
     protected onActivityCreate() { }
 
     public onLoginAction(): void {
-        const username: HTMLInputElement = document.getElementById("login-username") as HTMLInputElement;
-        const password: HTMLInputElement = document.getElementById("login-password") as HTMLInputElement;
+        if (this.loadState == false) {
+            this.setOnLoadState(true);
+            const username: HTMLInputElement = document.getElementById("login-username") as HTMLInputElement;
+            const password: HTMLInputElement = document.getElementById("login-password") as HTMLInputElement;
 
-        if (username.value == "" || password.value == ""){
-            // @ts-ignore
-            mdui.snackbar({
-                message: '账号或密码为空'
-            })
-        } else {
-            const this_Login: Login = this;
-            new LoginHelper().login(username.value, password.value, new class implements LoginCallback {
-                onFailure(code: number, message?: string, e?: CurlToolException) {
-                    // @ts-ignore
-                    mdui.snackbar({
-                        message: '登录失败，' + message + '(' + code.toString() + ')'
-                    })
-                }
+            if (username.value == "" || password.value == "") {
+                // @ts-ignore
+                mdui.snackbar({
+                    message: '账号或密码为空'
+                })
+            } else {
+                const this_Login: Login = this;
+                new LoginHelper().login(username.value, password.value, new class implements LoginCallback {
+                    onFailure(code: number, message?: string, e?: CurlToolException) {
+                        // @ts-ignore
+                        mdui.snackbar({
+                            message: '登录失败，' + message + '(' + code.toString() + ')'
+                        })
+                    }
 
-                onResult(access: string, refresh: string) {
-                    Login.onLoginResult(access, refresh);
+                    onResult(access: string, refresh: string) {
+                        Login.onLoginResult(access, refresh);
 
-                    new UserInfoHelper().getUserInfo(this_Login);
-                }
-            })
+                        new UserInfoHelper().getUserInfo(this_Login);
+                    }
+                })
+            }
         }
     }
 
@@ -73,5 +76,15 @@ export class Login extends HtmlCompatActivity implements UserInfoCallback {
             .getElementById("index-fragment"), true);
         HtmlCompatActivity.setVisibility(document
             .getElementById("login-fragment"), false);
+    }
+
+
+    protected setOnLoadState(state: boolean){
+        if (this.loadState != state){
+            HtmlCompatActivity.setVisibility(document.getElementById(
+                "login-progress"
+            ), state);
+        }
+        this.loadState = state;
     }
 }

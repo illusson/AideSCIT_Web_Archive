@@ -7,8 +7,6 @@ import {SharedPreferences} from "./core/SharedPreferences";
 export class Mine extends HtmlCompatActivity {
     protected readonly title: string = "我的";
 
-    private spring_doing: boolean = false;
-
     protected onActivityCreate() { }
 
     protected onViewSetup() {
@@ -36,24 +34,23 @@ export class Mine extends HtmlCompatActivity {
     }
 
     public springboard(): void {
-        if (!this.spring_doing){
-            this.spring_doing = true;
+        if (!this.loadState){
+            this.setOnLoadState(true);
             let access: string = CookieUnit.get("access_token");
             if (access != null){
                 const this_Mine = this;
                 new LoginHelper().springboard(access[0], new class implements SpringboardCallback {
                     onFailure(code: number, message?: string, e?: CurlToolException) {
-                        this_Mine.spring_doing = false;
+                        this_Mine.setOnLoadState(false);
                         window.open('http://218.6.163.95:18080/zfca?yhlx=student&login=0122579031373493708&url=xs_main.aspx');
                     }
 
                     onResult(location: string) {
-                        this_Mine.spring_doing = false;
+                        this_Mine.setOnLoadState(false);
                         window.open(location);
                     }
                 })
             } else {
-                this.spring_doing = false;
                 window.open('http://218.6.163.95:18080/zfca?yhlx=student&login=0122579031373493708&url=xs_main.aspx');
             }
         }

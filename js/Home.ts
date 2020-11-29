@@ -25,12 +25,15 @@ export class Home extends HtmlCompatActivity implements TableCallback {
         document.getElementById("home-soup-author").textContent = Home.getSentenceFrom();
     }
 
-    private getTable(){
-        const sp = SharedPreferences.getInterface("user");
-        const school_year: string = sp.getString("school_year", "");
-        const semester: number = sp.getNumber("semester", 0);
-        const helper = new TableHelper(this.week)
-        helper.getTable(school_year, semester, this);
+    public getTable(){
+        if (!this.loadState) {
+            this.setOnLoadState(true);
+            const sp = SharedPreferences.getInterface("user");
+            const school_year: string = sp.getString("school_year", "");
+            const semester: number = sp.getNumber("semester", 0);
+            const helper = new TableHelper(this.week)
+            helper.getTable(school_year, semester, this);
+        }
     }
 
     private static getHeaderInfo(): string {
@@ -71,6 +74,7 @@ export class Home extends HtmlCompatActivity implements TableCallback {
         mdui.snackbar({
             message: '课表获取失败，' + message + '(' + code.toString() + ')'
         })
+        this.setOnLoadState(false);
     }
 
     onRead(dayIndex: number, classIndex: number, data?: TableData) {
@@ -119,6 +123,7 @@ export class Home extends HtmlCompatActivity implements TableCallback {
     onReadFinish(isEmpty: boolean) {
         Home.setVisibility(document.getElementById("schedule-item-base"), !isEmpty);
         Home.setVisibility(document.getElementById("schedule-empty"), isEmpty);
+        this.setOnLoadState(false);
     }
 
     onReadStart() {

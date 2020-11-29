@@ -62,13 +62,18 @@
     </div>
     <div class="root-fragment" id="index-fragment" style="display: none;">
         <div class="header">
+            <div id="index-progress-base">
+                <div class="mdui-progress" id="index-progress" style="display: none;">
+                    <div class="mdui-progress-indeterminate"></div>
+                </div>
+            </div>
             <i class="header-actions mdui-icon material-icons mdui-ripple"
                id="drawer-button"
                mdui-drawer="{target: '#left-drawer'}">menu</i>
             <p id="header-title"></p>
         </div>
         <div class="body">
-            <div class="index-page" id="page-home" style="display: none;">
+            <div class="index-page" id="page-home">
                 <h2 id="home-welcome"></h2>
                 <p id="home-soup-content"></p>
                 <p id="home-soup-author"></p>
@@ -80,6 +85,9 @@
                         <div class="table-content schedule-column schedule-row table-item-first" id="schedule-content"></div>
                     </div>
                     <p class="table-empty" id="schedule-empty" style="display: none;">暂无数据</p>
+                </div>
+                <div class="refresh-button mdui-ripple" id="schedule-refresh">
+                    <img src="img/refresh.svg" class="refresh-icon material-icons" alt="">
                 </div>
             </div>
             <div class="index-page" id="page-achievement" style="display: none;">
@@ -118,6 +126,9 @@
                     <div class="table-content" id="exam-content"></div>
                     <p class="table-empty" id="exam-empty" style="display: none;">复习完了吗？这么着急考试？</p>
                 </div>
+                <div class="refresh-button mdui-ripple" id="exam-refresh">
+                    <img src="img/refresh.svg" class="refresh-icon material-icons" alt="">
+                </div>
             </div>
             <div class="index-page" id="page-mine" style="display: none;">
                 <img id="mine-avatar" src="img/drawable_avatar.png" alt="头像">
@@ -153,6 +164,11 @@
         </div>
     </div>
     <div class="root-fragment" id="login-fragment" style="display: none;">
+        <div id="login-progress-base">
+            <div class="mdui-progress" id="login-progress" style="display: none;">
+                <div class="mdui-progress-indeterminate"></div>
+            </div>
+        </div>
         <div class="login-background"></div>
         <div class="login-form">
             <img class="header-logo" src="img/ic_logo_school_full.png" alt="logo">

@@ -9,8 +9,8 @@ import {Log} from "./core/Log";
 export class Achievement extends HtmlCompatActivity implements AchievementCallback {
     protected readonly title: string = "成绩单";
 
-    private passed_count = 0;
-    private failed_count = 0;
+    private passed_count: number = 0;
+    private failed_count: number = 0;
 
     //@ts-ignore
     private static readonly achieve_year_inst = new mdui.Select("#achieve-year", {
@@ -73,15 +73,19 @@ export class Achievement extends HtmlCompatActivity implements AchievementCallba
     }
 
     public getAchievement(){
-        const school_year_inquire: HTMLSelectElement = document
-            .getElementById("achieve-year") as HTMLSelectElement;
-        const semester_inquire: HTMLSelectElement = document
-            .getElementById("achieve-semester") as HTMLSelectElement;
-        SharedPreferences.getInterface("user").edit()
-            .putString("school_year_inquire", school_year_inquire.value)
-            .putNumber("semester_inquire", parseInt(semester_inquire.value))
-            .apply();
-        new AchievementHelper().get(school_year_inquire.value, parseInt(semester_inquire.value), this);
+        if (!this.loadState){
+            this.setOnLoadState(true);
+            const school_year_inquire: HTMLSelectElement = document
+                .getElementById("achieve-year") as HTMLSelectElement;
+            const semester_inquire: HTMLSelectElement = document
+                .getElementById("achieve-semester") as HTMLSelectElement;
+            SharedPreferences.getInterface("user").edit()
+                .putString("school_year_inquire", school_year_inquire.value)
+                .putNumber("semester_inquire", parseInt(semester_inquire.value))
+                .apply();
+            new AchievementHelper().get(school_year_inquire.value, parseInt(semester_inquire.value), this);
+
+        }
     }
 
     onFailure(code: number, message?: string, e?: CurlToolException) {
@@ -89,6 +93,7 @@ export class Achievement extends HtmlCompatActivity implements AchievementCallba
         mdui.snackbar({
             message: '课表获取失败，' + message + '(' + code.toString() + ')'
         })
+        this.setOnLoadState(false);
     }
 
     onReadFailed(data: FailedMarkData) {
@@ -113,8 +118,13 @@ export class Achievement extends HtmlCompatActivity implements AchievementCallba
     }
 
     onReadFinish() {
-        Achievement.setVisibility(document.getElementById("achieve-passed-empty"), this.passed_count == 0);
-        Achievement.setVisibility(document.getElementById("achieve-failed-empty"), this.failed_count == 0);
+        Achievement.setVisibility(document.getElementById(
+            "achieve-passed-empty"
+        ), this.passed_count == 0);
+        Achievement.setVisibility(document.getElementById(
+            "achieve-failed-empty"
+        ), this.failed_count == 0);
+        this.setOnLoadState(false);
     }
 
     onReadPassed(data: PassedMarkData) {

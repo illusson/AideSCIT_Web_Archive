@@ -16,6 +16,7 @@ export class Exam extends HtmlCompatActivity implements ExamCallback {
     }
 
     public getExam() {
+        this.setOnLoadState(true);
         new ExamHelper().getExamInfo(this);
     }
 
@@ -28,6 +29,7 @@ export class Exam extends HtmlCompatActivity implements ExamCallback {
         mdui.snackbar({
             message: '考试座位安排获取失败，' + message + '(' + code.toString() + ')'
         })
+        this.setOnLoadState(false);
     }
 
     onReadData(data: ExamData) {
@@ -61,5 +63,6 @@ export class Exam extends HtmlCompatActivity implements ExamCallback {
 
     onReadFinish(isEmpty: boolean) {
         Exam.setVisibility(document.getElementById("exam-empty"), isEmpty);
+        this.setOnLoadState(false);
     }
 }

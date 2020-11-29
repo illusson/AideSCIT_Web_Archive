@@ -11,6 +11,10 @@
     top: 0;
 }
 
+#index-progress-base {
+    height: 4px;
+}
+
 #header-title {
     margin: 0;
     text-align: center;
@@ -83,4 +87,24 @@
     font-size: 16px;
     text-align: center;
     line-height: 40px;
+}
+
+.refresh-button {
+    position: absolute;
+    height: 54px;
+    width: 54px;
+    bottom: 24px;
+    right: 24px;
+    border-radius: 27px;
+    background-color: dodgerblue;
+}
+
+.refresh-icon {
+    color: #EFEFEF;
+    height: 38px;
+    width: 38px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
