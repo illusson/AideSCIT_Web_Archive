@@ -9,6 +9,15 @@ export class Achievement extends HtmlCompatActivity implements AchievementCallba
     private passed_count = 0;
     private failed_count = 0;
 
+    //@ts-ignore
+    private static readonly achieve_year_inst = new mdui.Select("#achieve-year", {
+        position: 'bottom'
+    });
+    //@ts-ignore
+    private static readonly achieve_semester_inst = new mdui.Select("#achieve-semester", {
+        position: 'bottom'
+    });
+
     public onCreate() {
         const sp = SharedPreferences.getInterface("user");
         const school_year: string = sp.getString(
@@ -34,8 +43,7 @@ export class Achievement extends HtmlCompatActivity implements AchievementCallba
             }
             achieve_year.appendChild(achieve_year_item);
         }
-        //@ts-ignore
-        new mdui.Select(achieve_year).handleUpdate();
+        Achievement.achieve_year_inst.handleUpdate();
 
         const achieve_semester: Element = document
             .getElementById("achieve-semester") as HTMLSelectElement;
@@ -49,8 +57,7 @@ export class Achievement extends HtmlCompatActivity implements AchievementCallba
             }
             achieve_semester.appendChild(achieve_semester_item);
         }
-        //@ts-ignore
-        new mdui.Select(achieve_semester).handleUpdate();
+        Achievement.achieve_semester_inst.handleUpdate();
 
         const achievement = localStorage.getItem("cache.achievement");
         if (achievement != null){
