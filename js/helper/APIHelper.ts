@@ -2,8 +2,8 @@ import {CurlCall, CurlClientBuilder, CurlRequestBuilder, FormBodyBuilder} from "
 import {Map, MapForEachCallback} from "../core/Map";
 
 export class APIHelper {
-    public static readonly debug: boolean = true;
-    // private static readonly debug: boolean = location.href.indexOf("SCITEduTool") >= 0;
+    //public static readonly debug: boolean = true;
+    public static readonly debug: boolean = location.href.indexOf("debug") >= 0;
 
     private static readonly API_HOST: string = "https://tool.eclass.sgpublic.xyz/api"
     public static readonly METHOD_GET: number = 0
@@ -115,7 +115,7 @@ export class APIHelper {
 
         const client = new CurlClientBuilder()
             .followLocation(false)
-            .setTimeout(30)
+            .setTimeout(5)
             .build();
         const request_builder = new CurlRequestBuilder();
         if (method == APIHelper.METHOD_POST){

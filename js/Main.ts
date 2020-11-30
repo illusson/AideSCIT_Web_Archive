@@ -146,9 +146,9 @@ function getWeek(): void {
                     if (result['direct'] == '+'){
                         day_count = result['day_count'];
                         if (day_count % 7 == 0){
-                            day_count = day_count / 7;
+                            day_count = parseInt((day_count / 7).toString());
                         } else {
-                            day_count = day_count / 7 + 1;
+                            day_count = parseInt((day_count / 7).toString()) + 1;
                         }
                         if (day_count > 18){
                             day_count = 0;
