@@ -14,20 +14,24 @@ export class ExamHelper {
         const call = new APIHelper(this.access_token).getExamCall();
         call.enqueue(new class implements CurlCallback {
             onFailure(call: CurlCall, exception: CurlToolException, requestId: number) {
-                callback.onFailure(-111, "网络请求失败", exception)
+                callback.onFailure(-601, "网络请求失败", exception)
             }
 
             onResponse(call: CurlCall, response: CurlResponse, requestId: number) {
                 if (response.code() == 200){
-                    const result = JSON.parse(response.body());
-                    if (result["code"] == 200){
-                        localStorage.setItem("cache.exam", response.body());
-                        ExamHelper.parse(response.body(), callback);
-                    } else {
-                        callback.onFailure(-104, result["message"]);
+                    try {
+                        const result = JSON.parse(response.body());
+                        if (result["code"] == 200) {
+                            localStorage.setItem("cache.exam", response.body());
+                            ExamHelper.parse(response.body(), callback);
+                        } else {
+                            callback.onFailure(-604, result["message"]);
+                        }
+                    } catch (e) {
+                        callback.onFailure(-603, e.message);
                     }
                 } else {
-                    callback.onFailure(-105, "服务器内部出错");
+                    callback.onFailure(-605, "服务器内部出错");
                 }
             }
         })

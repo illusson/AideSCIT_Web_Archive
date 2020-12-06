@@ -21,6 +21,7 @@ export class Login extends HtmlCompatActivity implements UserInfoCallback {
                 mdui.snackbar({
                     message: '账号或密码为空'
                 })
+                this.setOnLoadState(false);
             } else {
                 const this_Login: Login = this;
                 new LoginHelper().login(username.value, password.value, new class implements LoginCallback {
@@ -29,6 +30,7 @@ export class Login extends HtmlCompatActivity implements UserInfoCallback {
                         mdui.snackbar({
                             message: '登录失败，' + message + '(' + code.toString() + ')'
                         })
+                        this_Login.setOnLoadState(false);
                     }
 
                     onResult(access: string, refresh: string) {
@@ -59,7 +61,8 @@ export class Login extends HtmlCompatActivity implements UserInfoCallback {
         // @ts-ignore
         mdui.snackbar({
             message: '用户信息获取失败，' + message + '(' + code.toString() + ')'
-        })
+        });
+        this.setOnLoadState(false);
     }
 
     onResult(name: string, faculty: string, specialty: string, userClass: string, grade: number) {

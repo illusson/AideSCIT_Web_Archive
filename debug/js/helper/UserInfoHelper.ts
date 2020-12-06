@@ -18,13 +18,17 @@ export class UserInfoHelper {
 
             onResponse(call: CurlCall, response: CurlResponse, requestId: number) {
                 if (response.code() == 200){
-                    const result: any = JSON.parse(response.body());
-                    if (result["code"] == 200){
-                        const info = result["info"];
-                        callback.onResult(info["name"], info["faculty"],
-                            info["specialty"], info["class"], info["grade"])
-                    } else {
-                        callback.onFailure(-304, result["message"]);
+                    try {
+                        const result: any = JSON.parse(response.body());
+                        if (result["code"] == 200) {
+                            const info = result["info"];
+                            callback.onResult(info["name"], info["faculty"],
+                                info["specialty"], info["class"], info["grade"])
+                        } else {
+                            callback.onFailure(-304, result["message"]);
+                        }
+                    } catch (e) {
+                        callback.onFailure(-303, e.message);
                     }
                 } else {
                     callback.onFailure(-305, "服务器内部出错");

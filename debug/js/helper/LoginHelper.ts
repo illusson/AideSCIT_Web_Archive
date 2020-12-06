@@ -26,11 +26,15 @@ export class LoginHelper {
 
             onResponse(call: CurlCall, response: CurlResponse, requestId: number) {
                 if (response.code() == 200){
-                    const result = JSON.parse(response.body());
-                    if (result["code"] == 200){
-                        callback.onResult(result["location"]);
-                    } else {
-                        callback.onFailure(-114, result["message"]);
+                    try {
+                        const result = JSON.parse(response.body());
+                        if (result["code"] == 200){
+                            callback.onResult(result["location"]);
+                        } else {
+                            callback.onFailure(-114, result["message"]);
+                        }
+                    } catch (e) {
+                        callback.onFailure(-113, e.message);
                     }
                 } else {
                     callback.onFailure(-115, "服务器内部出错");
@@ -54,11 +58,15 @@ export class LoginHelper {
 
     private static parse(response: CurlResponse, callback: LoginCallback) {
         if (response.code() == 200){
-            const result = JSON.parse(response.body());
-            if (result["code"] == 200){
-                callback.onResult(result["access_token"], result["refresh_token"]);
-            } else {
-                callback.onFailure(-104, result["message"]);
+            try {
+                const result = JSON.parse(response.body());
+                if (result["code"] == 200){
+                    callback.onResult(result["access_token"], result["refresh_token"]);
+                } else {
+                    callback.onFailure(-104, result["message"]);
+                }
+            } catch (e) {
+                callback.onFailure(-103, e.message);
             }
         } else {
             callback.onFailure(-105, "服务器内部出错");

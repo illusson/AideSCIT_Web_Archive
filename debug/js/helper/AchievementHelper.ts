@@ -16,20 +16,24 @@ export class AchievementHelper {
         call.enqueue(new class implements CurlCallback {
             onResponse(call: CurlCall, response: CurlResponse, requestId: number) {
                 if (response.code() == 200){
-                    const result = JSON.parse(response.body());
-                    if (result["code"] == 200){
-                        localStorage.setItem("cache.achievement", response.body());
-                        AchievementHelper.parse(response.body(), callback);
-                    } else {
-                        callback.onFailure(-104, result["message"]);
+                    try {
+                        const result = JSON.parse(response.body());
+                        if (result["code"] == 200) {
+                            localStorage.setItem("cache.achievement", response.body());
+                            AchievementHelper.parse(response.body(), callback);
+                        } else {
+                            callback.onFailure(-504, result["message"]);
+                        }
+                    } catch (e) {
+                        callback.onFailure(-503, e.message);
                     }
                 } else {
-                    callback.onFailure(-105, "服务器内部出错");
+                    callback.onFailure(-505, "服务器内部出错");
                 }
             }
 
             onFailure(call: CurlCall, exception: CurlToolException, requestId: number) {
-                callback.onFailure(-111, "网络请求失败", exception)
+                callback.onFailure(-501, "网络请求失败", exception)
             }
         })
     }

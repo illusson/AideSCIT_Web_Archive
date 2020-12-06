@@ -25,11 +25,9 @@ export class Controller {
     public static readonly Mine: Mine = new Mine();
     public static readonly About: About = new About();
 
-    public static setup() {
-        const ua = navigator.userAgent;
-        if (ua.indexOf("yiban_android") == -1 && !APIHelper.debug){
-            window.location.href = "https://tool.eclass.sgpublic.xyz/"
-        } else {
+    public static setup(): boolean {
+        const ua: string = navigator.userAgent;
+        if (ua.indexOf("yiban_android") > 0 || APIHelper.debug){
             document.getElementById("login-button").onclick = function() {
                 Controller.Login.onLoginAction();
             }
@@ -61,6 +59,10 @@ export class Controller {
                     onDrawerListItemClick(i);
                 })
             }
+            return true;
+        } else {
+            window.location.href = "https://tool.eclass.sgpublic.xyz/"
+            return false;
         }
     }
 
@@ -125,8 +127,8 @@ function onDrawerListItemClick(index: number): void {
             const active_item: Element = page_list.item(active_index);
             HtmlCompatActivity.setVisibility(active_item, false);
         }
-        let active_item: Element = page_list.item(index);
-        HtmlCompatActivity.setVisibility(active_item, true);
+        const active_item_show: Element = page_list.item(index);
+        HtmlCompatActivity.setVisibility(active_item_show, true);
     }
     Controller.drawer_index_now = index;
 }
@@ -172,8 +174,7 @@ function getWeek(): void {
 }
 
 function getSentence(): void {
-    const access: string = CookieUnit.get("access_token");
-    new APIHelper(access).getSentenceCall().enqueue(new class implements CurlCallback {
+    new APIHelper().getSentenceCall().enqueue(new class implements CurlCallback {
         onFailure(call: CurlCall, exception: CurlToolException, requestId: number) {
             Controller.finish(true);
         }
@@ -182,7 +183,7 @@ function getSentence(): void {
             try {
                 const result = JSON.parse(response.body());
                 SharedPreferences.getInterface("user").edit()
-                    .putString("sentence", result["string"])
+                    .putString("sentence", result["hitokoto"])
                     .putString("from", result["from"])
                     .apply();
             } catch (e){ }
@@ -223,9 +224,9 @@ function checkLogin(): void {
 }
 
 window.onload = function() {
-    Controller.setup();
-
-    getSentence();
-    getWeek();
-    checkLogin();
+    if (Controller.setup()){
+        getSentence();
+        getWeek();
+        checkLogin();
+    }
 }

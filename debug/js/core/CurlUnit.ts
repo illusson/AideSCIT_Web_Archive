@@ -202,7 +202,6 @@ export class CurlCall {
         }
 
         this.xmlRequest.open(this.method, this.url, true);
-        this.xmlRequest.withCredentials = true;
         this.xmlRequest.setRequestHeader("Content-Type",
             "application/x-www-form-urlencoded;charset=utf-8");
         this.xmlRequest.send(this.body);
@@ -217,7 +216,6 @@ export class CurlCall {
 
     public execute(): CurlResponse {
         this.xmlRequest.open(this.method, this.url, false);
-        this.xmlRequest.withCredentials = true;
         this.xmlRequest.setRequestHeader("Content-Type",
             "application/x-www-form-urlencoded;charset=utf-8");
         this.xmlRequest.send(this.body);

@@ -2,8 +2,8 @@ import {CurlCall, CurlClientBuilder, CurlRequestBuilder, FormBodyBuilder} from "
 import {Map, MapForEachCallback} from "../core/Map";
 
 export class APIHelper {
-    //public static readonly debug: boolean = true;
-    public static readonly debug: boolean = location.href.indexOf("debug") >= 0;
+    public static readonly debug: boolean = true;
+    // public static readonly debug: boolean = location.href.indexOf("debug") > 0;
 
     private static readonly API_HOST: string = "https://tool.eclass.sgpublic.xyz/api"
     public static readonly METHOD_GET: number = 0
@@ -43,11 +43,7 @@ export class APIHelper {
     }
 
     public getSentenceCall(): CurlCall {
-        const url = "hitokoto.php"
-        const args: Map<string, any> = new Map<string, any>()
-            .set("access_token", this.access_token)
-            .set("ts", APIHelper.getTS());
-        return this.onReturn(url, args, APIHelper.METHOD_POST, true);
+        return this.onReturn("https://v1.hitokoto.cn/?encode=json");
     }
 
     public getDayCall(): CurlCall {

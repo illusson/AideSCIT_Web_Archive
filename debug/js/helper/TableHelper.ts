@@ -22,12 +22,16 @@ export class TableHelper {
 
             onResponse(call: CurlCall, response: CurlResponse, requestId: number) {
                 if (response.code() == 200){
-                    const result = JSON.parse(response.body());
-                    if (result["code"] == 200){
-                        localStorage.setItem("cache.table", response.body());
-                        TableHelper.parse(response.body(), this_TableHelper.week, callback);
-                    } else {
-                        callback.onFailure(-404, result["message"]);
+                    try {
+                        const result = JSON.parse(response.body());
+                        if (result["code"] == 200) {
+                            localStorage.setItem("cache.table", response.body());
+                            TableHelper.parse(response.body(), this_TableHelper.week, callback);
+                        } else {
+                            callback.onFailure(-404, result["message"]);
+                        }
+                    } catch (e) {
+                        callback.onFailure(-403, e.message);
                     }
                 } else {
                     callback.onFailure(-405, "服务器内部出错");
